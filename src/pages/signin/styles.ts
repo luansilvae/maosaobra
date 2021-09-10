@@ -56,7 +56,6 @@ export const LoginBox = styled.div`
   border-radius: 5px;
   text-align: center;
   padding: 4rem 7rem;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05), 0px 4px 16px rgba(0, 0, 0, 0.06);
 
   @media (max-width: 540px) {
     width: 100%;

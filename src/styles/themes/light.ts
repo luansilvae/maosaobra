@@ -1,7 +1,7 @@
 export default {
   title: 'light',
   colors: {
-    background: '#FFFFFF',
+    background: '#fefefe',
     secondaryBackground: '#FFFFFF',
     title: '#3C3C3C',
     text: '#616161',

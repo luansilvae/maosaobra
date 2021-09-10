@@ -10,7 +10,7 @@ const NavbarContainer = styled.div`
   margin: 0 auto;
   background: #ffffff;
   box-shadow: 0 1px 3px rgba(15, 15, 15, 0.13);
-  padding: 2.5rem 4rem;
+  padding: 1.8rem 4rem;
 
   header {
     display: flex;
@@ -20,7 +20,7 @@ const NavbarContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-    padding: 2.5rem 1.5rem;
+    padding: 1.8rem 1.5rem;
   }
 `
 

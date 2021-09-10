@@ -17,10 +17,10 @@ export const Container = styled.div`
     margin: 2rem auto;
 
     span {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 500;
       line-height: 2.4rem;
-      color: #616161;
+      color: ${props => props.theme.colors.title};
     }
   }
 
@@ -54,10 +54,10 @@ export const LandingContainer = styled.div`
     margin: 2rem auto;
 
     span {
-      font-size: 1.8rem;
-      font-weight: 500;
+      font-size: 1.3rem;
+      font-weight: 400;
       line-height: 2.4rem;
-      color: #616161;
+      color: tomato;
     }
   }
 
@@ -94,15 +94,13 @@ export const SearchContainer = styled.div`
     }
 
     .search-box {
-      background: #fbfbfb;
+      background: #ffffff;
       border-radius: 5px;
       border: 0.5px solid #e6e6e6;
       padding: 2rem;
       display: flex;
       justify-content: space-between;
       gap: 2rem;
-      box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05),
-        0px 4px 16px rgba(0, 0, 0, 0.06);
 
       @media (max-width: 654px) {
         flex-direction: column;
@@ -272,8 +270,6 @@ export const UsersList = styled.div`
     border-radius: 5px;
     border: 0.5px solid #ececec;
     padding: 3rem;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05),
-      0px 4px 16px rgba(0, 0, 0, 0.06);
 
     display: flex;
     flex-direction: column;
