@@ -1,107 +1,113 @@
 import styled from 'styled-components'
 
 const Container = styled.div`
-  max-width: 100vw;
-  margin: 6rem auto;
-  padding: 0 2.5rem;
-
-  @media (max-width: 480px) {
-    padding: 1rem;
-    margin-top: 3rem;
-  }
-
   .user-content {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 3rem;
-    justify-content: center;
-    padding-bottom: 2rem;
+    margin: 0 auto;
+    max-width: 1100px;
 
-    img {
-      border-radius: 50%;
-      width: 118px;
-      height: 118px;
-    }
+    gap: 3rem;
+    padding: 6rem 2rem;
 
     @media (max-width: 950px) {
       flex-direction: column;
     }
 
+    @media (max-width: 480px) {
+      padding: 2rem;
+    }
+
     .user-info {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
 
-      @media (max-width: 950px) {
-        align-items: center;
+      h1 {
+        font-size: 3.6rem;
+        color: ${props => props.theme.colors.title};
+        font-weight: 600;
       }
 
-      > p {
-        margin-top: 2rem;
-        color: ${props => props.theme.colors.text};
-        font-size: 1.6rem;
-
-        span {
-          color: ${props => props.theme.colors.title};
-          font-weight: 500;
-        }
+      img {
+        border-radius: 50%;
+        width: 118px;
+        height: 118px;
       }
 
-      .user-info-data {
-        display: flex;
-        align-items: center;
-        gap: 3rem;
+      @media (max-width: 720px) {
+        flex-direction: column;
 
         h1 {
-          font-size: 4.1rem;
-          color: ${props => props.theme.colors.title};
-          font-weight: 500;
+          font-size: 3rem;
+          text-align: center;
         }
+      }
+    }
 
-        span {
-          font-size: 1.7rem;
-          color: ${props => props.theme.colors.text};
-          white-space: pre-wrap;
+    .specialties {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      gap: 1rem;
+
+      span {
+        background: #edfff4;
+        padding: 0.5rem;
+        border-radius: 5px;
+        font-size: 1.4rem;
+        color: #1dbf73;
+        border: solid 1.5px #1dbf73;
+        font-weight: 500;
+      }
+
+      @media (max-width: 720px) {
+        justify-content: center;
+      }
+    }
+
+    .user-location {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      span {
+        font-size: 1.6rem;
+        color: ${props => props.theme.colors.text};
+        white-space: pre-wrap;
+        display: flex;
+        align-items: center;
+        margin-left: -2px;
+
+        svg {
+          color: ${props => props.theme.colors.primary};
+          margin-right: 1rem;
+        }
+      }
+
+      .edit-profile {
+        a {
+          padding: 0.6rem;
+          background-color: #ffffff;
+          border: solid 1px #d6d6d6;
+          font-weight: 500;
+          border-radius: 5px;
+
           display: flex;
+          justify-content: center;
           align-items: center;
-          margin-left: -2px;
+          transition: all 200ms ease-in;
 
           svg {
             color: ${props => props.theme.colors.primary};
-            margin-right: 1rem;
+            margin-right: 0.6rem;
           }
-        }
 
-        @media (max-width: 950px) {
-          flex-direction: column;
-          gap: 0;
-          margin-bottom: 3rem;
-
-          h1 {
-            font-size: 3rem;
-            text-align: center;
+          &:hover {
+            border-color: ${props => props.theme.colors.primary};
           }
-        }
-      }
-
-      .description {
-        margin-top: 1rem;
-        display: flex;
-        max-width: 100%;
-        flex-wrap: wrap;
-        gap: 1rem;
-
-        @media (max-width: 625px) {
-          justify-content: center;
-        }
-
-        span {
-          background: #edfff4;
-          padding: 0.5rem;
-          border-radius: 5px;
-          font-size: 1.4rem;
-          color: #1dbf73;
-          border: solid 1.5px #1dbf73;
-          font-weight: 500;
         }
       }
     }

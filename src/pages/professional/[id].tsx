@@ -1,10 +1,17 @@
 import { ObjectId } from 'bson'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { useSession } from 'next-auth/client'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import { FaWhatsapp } from 'react-icons/fa'
+import { BiEditAlt } from 'react-icons/bi'
 import { RiMapPinLine } from 'react-icons/ri'
+import { useFetch } from '../../hooks/useFetch'
 import { connect } from '../../utils/database'
+
+import { parseISO, format, formatDistance } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 import Container from './styles'
 
@@ -22,10 +29,31 @@ interface User {
   especialidades: string[]
   experience: number
   professional: boolean
+  createdAt: Date
 }
 
 export default function Professional({ user }) {
   const professional: User = JSON.parse(user)
+
+  const [session] = useSession()
+
+  const { data } = useFetch(`/api/user/${session?.user.email}`)
+
+  const joinDate = format(
+    parseISO(professional.createdAt.toString()),
+    'dd/MM/yyyy',
+    {
+      locale: ptBR
+    }
+  )
+
+  const dateDistance = formatDistance(
+    parseISO(new Date().toISOString()),
+    parseISO(professional.createdAt.toString()),
+    {
+      locale: ptBR
+    }
+  )
 
   const formatedPhone = professional.phone
     .replace(/\(/g, '')
@@ -40,39 +68,53 @@ export default function Professional({ user }) {
       </Head>
 
       <div className="user-content">
-        <Image
-          width={350}
-          height={350}
-          alt="User Avatar"
-          src={professional.image}
-        />
-
         <div className="user-info">
+          <Image
+            width={350}
+            height={350}
+            alt="User Avatar"
+            src={professional.image}
+          />
+
           <div className="user-info-data">
             <h1>{professional.name}</h1>
-            <span>
-              <RiMapPinLine size={25} />
-              {professional.neighborhood}, {professional.city} -{' '}
-              {professional.state}
-            </span>
-          </div>
 
-          <div className="description">
-            {professional.especialidades &&
-              professional.especialidades.map(item => (
-                <span key={item}>{item}</span>
-              ))}
+            <div className="specialties">
+              {professional.especialidades &&
+                professional.especialidades.map(item => (
+                  <span key={item}>{item}</span>
+                ))}
+            </div>
           </div>
+        </div>
 
-          <p>
-            <span>CNPJ:</span> {professional.cnpj}
-          </p>
+        <div className="user-location">
+          <span>
+            <RiMapPinLine size={25} />
+            {professional.neighborhood}, {professional.city} -{' '}
+            {professional.state}
+          </span>
+
+          {data && data._id === professional._id && (
+            <div className="edit-profile">
+              <Link href="/profile">
+                <a>
+                  <BiEditAlt size={25} />
+                  Editar Perfil
+                </a>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="card">
         <h2>Descrição</h2>
         <p>{professional.description}</p>
+
+        <p>
+          Juntou-se: Há {dateDistance}, em {joinDate}
+        </p>
       </div>
 
       <div className="card">
