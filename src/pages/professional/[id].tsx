@@ -4,9 +4,14 @@ import { useSession } from 'next-auth/client'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaWhatsapp } from 'react-icons/fa'
-import { BiEditAlt } from 'react-icons/bi'
-import { RiMapPinLine } from 'react-icons/ri'
+import { HiOutlineMail } from 'react-icons/hi'
+import { BiEditAlt, BiCalendar } from 'react-icons/bi'
+import {
+  RiMapPinLine,
+  RiPhoneFill,
+  RiShieldUserLine,
+  RiWhatsappFill
+} from 'react-icons/ri'
 import { useFetch } from '../../hooks/useFetch'
 import { connect } from '../../utils/database'
 
@@ -108,42 +113,79 @@ export default function Professional({ user }) {
         </div>
       </div>
 
-      <div className="card">
-        <h2>Descrição</h2>
-        <p>{professional.description}</p>
+      <div className="card-container">
+        <div className="about-container">
+          <div className="card">
+            <h2>Sobre</h2>
+            <p>{professional.description}</p>
+          </div>
 
-        <p>
-          Juntou-se: Há {dateDistance}, em {joinDate}
-        </p>
-      </div>
+          <div className="card">
+            <h2>Experiência</h2>
+            <p>
+              {professional.experience > 1
+                ? `${professional.experience} anos`
+                : `${professional.experience} ano`}
+            </p>
+          </div>
+        </div>
 
-      <div className="card">
-        <h2>Experiência</h2>
-        <p>
-          {professional.experience > 1
-            ? `${professional.experience} anos`
-            : `${professional.experience} ano`}
-        </p>
-      </div>
+        <div className="card-infos">
+          <h2>Informações Adicionais</h2>
 
-      <div className="card">
-        <h2>Contato</h2>
-        <p>
-          <span>E-mail: </span> {professional.email}
-        </p>
+          <div className="card-item-container">
+            <div className="card-item">
+              <span>
+                <HiOutlineMail size={25} />
+                EMAIL
+              </span>
 
-        <p>
-          <span>Telefone: </span> {professional.phone}
-        </p>
+              <a href={`mailto:${professional.email}`} target="_blank">
+                {professional.email}
+              </a>
+            </div>
 
-        <a
-          href={`https://wa.me/+55${formatedPhone}?text=Olá ${professional.name}! Encontrei seu perfil no site Mãos à Obra e gostaria de ter mais informações sobre seus serviços.`}
-          target="_blank"
-        >
-          <button>
-            <FaWhatsapp size={28} /> Chamar no WhatsApp
-          </button>
-        </a>
+            <div className="card-item">
+              <div className="phone-info">
+                <span>
+                  <RiPhoneFill size={25} />
+                  TELEFONE
+                </span>
+
+                <a href={`tel:${professional.phone}`}>{professional.phone}</a>
+              </div>
+
+              <div className="whatsapp-button">
+                <a
+                  href={`https://wa.me/+55${formatedPhone}?text=Olá ${professional.name}! Encontrei seu perfil no site Mãos à Obra e gostaria de ter mais informações sobre seus serviços.`}
+                  target="_blank"
+                >
+                  <RiWhatsappFill size={30} />
+                </a>
+              </div>
+            </div>
+
+            <div className="card-item">
+              <span>
+                <BiCalendar size={25} />
+                JUNTOU-SE
+              </span>
+
+              <p>
+                Há {dateDistance}, em {joinDate}
+              </p>
+            </div>
+
+            <div className="card-item">
+              <span>
+                <RiShieldUserLine size={25} />
+                CNPJ
+              </span>
+
+              <p>{professional.cnpj}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </Container>
   )

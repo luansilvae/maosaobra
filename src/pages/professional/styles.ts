@@ -9,7 +9,7 @@ const Container = styled.div`
     max-width: 1100px;
 
     gap: 3rem;
-    padding: 6rem 2rem;
+    padding: 6rem 4rem;
 
     @media (max-width: 950px) {
       flex-direction: column;
@@ -72,6 +72,7 @@ const Container = styled.div`
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      align-items: center;
 
       span {
         font-size: 1.6rem;
@@ -94,6 +95,8 @@ const Container = styled.div`
           border: solid 1px #d6d6d6;
           font-weight: 500;
           border-radius: 5px;
+          font-size: 1.6rem;
+          margin-top: 1rem;
 
           display: flex;
           justify-content: center;
@@ -113,66 +116,117 @@ const Container = styled.div`
     }
   }
 
-  .card {
-    background: #ffffff;
-    border: 0.5px solid #ececec;
-    border-radius: 5px;
-    padding: 2rem;
+  .card-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 3rem;
+    padding: 0 3rem;
+
+    @media (max-width: 1070px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 730px) {
+      grid-template-columns: 1fr;
+      padding: 0 1rem;
+      gap: 1rem;
+    }
+  }
+
+  .about-container {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    margin: 4rem auto;
-    max-width: 650px;
+    gap: 3rem;
 
-    @media (max-width: 480px) {
-      box-shadow: none;
+    @media (max-width: 730px) {
+      gap: 1rem;
     }
 
-    h2 {
-      font-size: 2.3rem;
-      font-weight: 500;
-      line-height: 3.3rem;
-      color: ${props => props.theme.colors.title};
-      margin-bottom: 1rem;
-    }
+    .card {
+      background: #ffffff;
+      border: 0.5px solid #f0f0f0;
+      border-radius: 5px;
+      padding: 3rem;
 
-    p {
-      font-size: 1.7rem;
-      color: ${props => props.theme.colors.text};
-
-      span {
-        font-weight: 600;
+      h2 {
+        font-size: 2rem;
+        font-weight: 500;
         color: ${props => props.theme.colors.title};
       }
+      p {
+        font-size: 1.6rem;
+        color: ${props => props.theme.colors.text};
+        margin-top: 2.5rem;
+      }
+    }
+  }
+
+  .card-infos {
+    background: #ffffff;
+    border: 0.5px solid #f0f0f0;
+    border-radius: 5px;
+    padding: 3rem;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 500;
+      color: ${props => props.theme.colors.title};
+      margin-bottom: 2.5rem;
     }
 
-    button {
-      background: ${props => props.theme.colors.primary};
-      color: #ffffff;
-      font-weight: 500;
-      border: 0;
-      border-radius: 5px;
-      cursor: pointer;
-      padding: 1rem;
-
-      margin: 2rem auto 0 auto;
-
+    .card-item-container {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      max-width: 340px;
+      justify-content: space-between;
+      flex-direction: column;
+      gap: 3rem;
+      font-size: 1.6rem;
 
-      transition: background-color 0.2s;
+      .card-item:nth-child(2) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-      @media (max-width: 480px) {
-        width: 100%;
-        padding: 1rem auto;
-        font-size: 1.8rem;
+        .whatsapp-button {
+          a {
+            border: 2px solid ${props => props.theme.colors.primary};
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 0.4rem;
+          }
+
+          svg {
+            color: #00e676;
+          }
+        }
       }
 
-      &:hover {
-        background-color: #18a061;
+      .card-item span {
+        display: flex;
+        align-items: center;
+        color: #a8aaba;
+        margin-bottom: 0.7rem;
+
+        svg {
+          margin-right: 1rem;
+        }
+      }
+      .card-item a {
+        color: ${props => props.theme.colors.primary};
+        font-weight: 500;
+
+        transition: filter 200ms;
+
+        &:hover {
+          filter: brightness(90%);
+        }
+      }
+
+      .card-item p {
+        font-weight: 500;
+        color: ${props => props.theme.colors.title};
       }
     }
   }
