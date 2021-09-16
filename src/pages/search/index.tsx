@@ -97,7 +97,11 @@ export default function Search({
                         </div>
                       </div>
 
-                      <span>{user.description}</span>
+                      <span>
+                        {user.description.length > 100
+                          ? user.description.substring(0, 100) + '...'
+                          : user.description}
+                      </span>
 
                       <div className="description">
                         {user.especialidades &&

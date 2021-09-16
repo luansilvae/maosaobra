@@ -58,12 +58,10 @@ const RightSection = styled.div`
       }
 
       img {
-        width: 35px;
-        height: 35px;
+        width: 4rem;
+        height: 4rem;
         border-radius: 50%;
         border: solid 1px ${props => props.theme.colors.primary};
-        box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05),
-          0px 4px 16px rgba(0, 0, 0, 0.06);
       }
 
       @media (max-width: 480px) {
