@@ -4,5 +4,6 @@ export const listaEspecialidades = [
   { label: 'Encanador', value: 'Encanador' },
   { label: 'Pedreiro', value: 'Pedreiro' },
   { label: 'Gesseiro', value: 'Gesseiro' },
-  { label: 'Montador', value: 'Montador' }
+  { label: 'Montador', value: 'Montador' },
+  { label: 'Mecânico', value: 'Mecânico' }
 ]
