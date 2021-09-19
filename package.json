@@ -11,7 +11,6 @@
     "axios": "^0.21.1",
     "date-fns": "^2.23.0",
     "formik": "^2.2.9",
-    "formik-persist": "^1.1.0",
     "mongodb": "^3.6.9",
     "next": "^10.2.3",
     "next-auth": "^3.24.0",

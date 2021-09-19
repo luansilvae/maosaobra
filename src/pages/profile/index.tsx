@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field } from 'formik'
-import { Persist } from 'formik-persist'
 import Head from 'next/head'
 import Router from 'next/router'
 import axios from 'axios'
@@ -295,8 +294,6 @@ const Profile: React.FC = () => {
                               Salvar
                             </button>
                           </div>
-
-                          <Persist name="user-form" />
                         </Form>
                       )
                     }}
@@ -310,12 +307,12 @@ const Profile: React.FC = () => {
                     validationSchema={validateProfessional}
                     onSubmit={values => {
                       if (
-                        !userData.phone ||
-                        !userData.city ||
-                        !userData.neighborhood ||
-                        !userData.state
+                        !data.phone ||
+                        !data.city ||
+                        !data.neighborhood ||
+                        !data.state
                       ) {
-                        notify('Finalize os Dados de usuário.', '#d83024')
+                        notify('Finalize os dados de usuário.', '#d83024')
                       } else {
                         notify('Cadastro profissional atualizado.', '#1dbf73')
                         axios.put(`/api/professionals`, values)
@@ -335,13 +332,25 @@ const Profile: React.FC = () => {
                               especialidades
                             } = response.data
 
-                            setProfessionalData({
-                              especialidades,
-                              description,
-                              experience,
-                              cnpj,
+                            const initialValues = {
+                              especialidades: [],
+                              description: '',
+                              experience: '',
+                              cnpj: '',
                               email: session?.user.email
-                            })
+                            }
+
+                            if (!data.especialidades) {
+                              setProfessionalData(initialValues)
+                            } else {
+                              setProfessionalData({
+                                especialidades,
+                                description,
+                                experience,
+                                cnpj,
+                                email: session?.user.email
+                              })
+                            }
                           })
                       }, [session?.user.email])
 
@@ -468,7 +477,6 @@ const Profile: React.FC = () => {
                               Salvar
                             </button>
                           </div>
-                          <Persist name="professional-form" />
                         </Form>
                       )
                     }}
