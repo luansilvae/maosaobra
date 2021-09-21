@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { FormEvent, useCallback, useEffect, useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import Head from 'next/head'
 import Router from 'next/router'
@@ -35,7 +35,8 @@ const Profile: React.FC = () => {
     phone: '',
     city: '',
     neighborhood: '',
-    state: ''
+    state: '',
+    cep: ''
   })
 
   const [professionalData, setProfessionalData] = useState({
@@ -62,7 +63,12 @@ const Profile: React.FC = () => {
       .max(20, 'Bairro aceita no máximo 20 caracteres.'),
     state: Yup.string()
       .required('Por favor, preencha o estado.')
-      .max(2, 'Estado aceita no máximo 2 caracteres.')
+      .max(2, 'Preencha o estado com a sigla de 2 caracteres.')
+      .min(2, 'Preencha o estado com a sigla de 2 caracteres.'),
+    cep: Yup.string()
+      .required('Por favor, preencha o CEP.')
+      .max(9, 'Formato inválido')
+      .min(9, 'Formato inválido')
   })
 
   const validateProfessional = Yup.object({
@@ -121,6 +127,14 @@ const Profile: React.FC = () => {
     }
   }
 
+  const handleKeyUp = useCallback((e: React.FormEvent<HTMLInputElement>) => {
+    e.currentTarget.maxLength = 9
+    let value = e.currentTarget.value
+    value = value.replace(/\D/g, '')
+    value = value.replace(/^(\d{5})(\d)/, '$1-$2')
+    e.currentTarget.value = value
+  }, [])
+
   return (
     <div>
       {session ? (
@@ -151,6 +165,49 @@ const Profile: React.FC = () => {
                   >
                     {formik => {
                       const { errors, touched, isValid } = formik
+
+                      const handleCEP = async (
+                        currentCep: FormEvent<HTMLFormElement>
+                      ) => {
+                        if (!currentCep) {
+                          formik.setTouched({ cep: true }, true)
+                          formik.setErrors({
+                            cep: 'Por favor preencha seu CEP.'
+                          })
+                        } else {
+                          formik.setTouched({ cep: true }, true)
+
+                          if (!errors.cep) {
+                            const validCep = await axios.get(
+                              `https://viacep.com.br/ws/${currentCep}/json/`
+                            )
+
+                            const { localidade, bairro, uf, cep, erro } =
+                              validCep.data
+
+                            if (erro) {
+                              notify('CEP inválido.', '#d83024')
+
+                              setUserData(userData => ({
+                                ...userData,
+                                city: '',
+                                neighborhood: '',
+                                state: '',
+                                cep
+                              }))
+                            }
+
+                            setUserData(userData => ({
+                              ...userData,
+                              city: localidade,
+                              neighborhood: bairro,
+                              state: uf,
+                              cep
+                            }))
+                          }
+                        }
+                      }
+
                       useEffect(() => {
                         axios
                           .get(`/api/user/${session?.user.email}`)
@@ -161,7 +218,8 @@ const Profile: React.FC = () => {
                               phone,
                               city,
                               neighborhood,
-                              state
+                              state,
+                              cep
                             } = response.data
 
                             setUserData({
@@ -170,7 +228,8 @@ const Profile: React.FC = () => {
                               phone,
                               city,
                               neighborhood,
-                              state
+                              state,
+                              cep
                             })
                           })
                       }, [session?.user.email])
@@ -239,17 +298,28 @@ const Profile: React.FC = () => {
                           <InputGroup>
                             <div
                               className={
-                                errors.city && touched.city
+                                errors.cep && touched.cep
                                   ? 'error input'
                                   : 'input'
                               }
                             >
-                              <label htmlFor="city">Cidade</label>
-                              <Field id="city" name="city" />
-                              {errors.city && touched.city ? (
+                              <label htmlFor="city">CEP</label>
+                              <Field
+                                id="cep"
+                                name="cep"
+                                onKeyUp={handleKeyUp}
+                                onBlur={(event: {
+                                  target: {
+                                    value: React.FormEvent<HTMLFormElement>
+                                  }
+                                }) => {
+                                  handleCEP(event.target.value)
+                                }}
+                              />
+                              {errors.cep && touched.cep ? (
                                 <div className="error-message">
                                   <TiWarning size={21} />
-                                  {errors.city}
+                                  {errors.cep}
                                 </div>
                               ) : null}
                             </div>
@@ -274,13 +344,30 @@ const Profile: React.FC = () => {
 
                             <div
                               className={
+                                errors.city && touched.city
+                                  ? 'error input'
+                                  : 'input'
+                              }
+                            >
+                              <label htmlFor="city">Cidade</label>
+                              <Field id="city" name="city" disabled />
+                              {errors.city && touched.city ? (
+                                <div className="error-message">
+                                  <TiWarning size={21} />
+                                  {errors.city}
+                                </div>
+                              ) : null}
+                            </div>
+
+                            <div
+                              className={
                                 errors.state && touched.state
                                   ? 'error input'
                                   : 'input'
                               }
                             >
                               <label htmlFor="state">Estado</label>
-                              <Field id="state" name="state" />
+                              <Field id="state" name="state" disabled />
                               {errors.state && touched.state ? (
                                 <div className="error-message">
                                   <TiWarning size={21} />

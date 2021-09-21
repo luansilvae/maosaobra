@@ -18,6 +18,7 @@ interface User {
   neighborhood: string
   phone: string
   state: string
+  cep: string
   cnpj: string
   description: string
   especialidades: string[]
@@ -30,7 +31,8 @@ export default async (
   res: NextApiResponse<ErrorResponseType | SuccessResponseType>
 ) => {
   if (req.method === 'PUT') {
-    const { name, email, phone, state, city, neighborhood }: User = req.body
+    const { name, email, phone, state, city, neighborhood, cep }: User =
+      req.body
 
     const { db } = await connect()
 
@@ -38,10 +40,10 @@ export default async (
       .collection('users')
       .updateOne(
         { email: email },
-        { $set: { name, phone, state, city, neighborhood } }
+        { $set: { name, phone, state, city, neighborhood, cep } }
       )
 
-    return res.status(200).json({ message: 'Usuário alterado com sucesso' })
+    return res.status(200).json({ message: 'Usuário alterado com sucesso.' })
   } else {
     return res.status(400).json({ error: 'Wrong request method' })
   }
