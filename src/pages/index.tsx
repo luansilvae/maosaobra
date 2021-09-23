@@ -42,9 +42,10 @@ interface UserProps {
   page: number
   maxPage: number
   total: number
+  url: string
 }
 
-export default function Home({ users, page, maxPage, total }: UserProps) {
+export default function Home({ users, page, maxPage, total, url }: UserProps) {
   const [session, loading] = useSession()
   const [city, setCity] = useState('')
   const [especialidade, setEspecialidade] = useState('')
@@ -52,7 +53,11 @@ export default function Home({ users, page, maxPage, total }: UserProps) {
   const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    Router.push(`/search/?city=${city}&especialidade=${especialidade}`)
+    Router.push(
+      city
+        ? `?city=${city}&especialidade=${especialidade}`
+        : `?especialidade=${especialidade}`
+    )
   }
 
   return (
@@ -86,7 +91,51 @@ export default function Home({ users, page, maxPage, total }: UserProps) {
           />
         </LandingContainer>
       ) : (
-        <div>
+        <Container>
+          <SearchContainer>
+            <div className="search">
+              <h1>Encontre um prestador de serviço</h1>
+
+              <form className="search-box" onSubmit={handleSearch}>
+                <input
+                  type="text"
+                  placeholder="Cidade"
+                  onChange={event => {
+                    setCity(capitalizeString(event.target.value.trim()))
+                  }}
+                />
+
+                <select
+                  onChange={event => {
+                    setEspecialidade(event.target.value)
+                  }}
+                  required
+                >
+                  <option style={{ display: 'none' }} value="">
+                    Especialidades
+                  </option>
+                  {listaEspecialidades.map(especialidade => (
+                    <option
+                      value={especialidade.value}
+                      key={especialidade.label}
+                    >
+                      {especialidade.label}
+                    </option>
+                  ))}
+                </select>
+                <button type="submit">Procurar</button>
+              </form>
+            </div>
+
+            <div className="illustration">
+              <Image
+                alt="Mãos à Obra Logo"
+                src="/illustration.svg"
+                width={600}
+                height={450}
+              />
+            </div>
+          </SearchContainer>
           {users.length < 1 ? (
             <Container>
               <div className="found-professionals">
@@ -94,53 +143,7 @@ export default function Home({ users, page, maxPage, total }: UserProps) {
               </div>
             </Container>
           ) : (
-            <Container>
-              <SearchContainer>
-                <div className="search">
-                  <h1>Encontre um prestador de serviço</h1>
-
-                  <form className="search-box" onSubmit={handleSearch}>
-                    <input
-                      type="text"
-                      placeholder="Cidade"
-                      required
-                      onChange={event => {
-                        setCity(capitalizeString(event.target.value.trim()))
-                      }}
-                    />
-
-                    <select
-                      onChange={event => {
-                        setEspecialidade(event.target.value)
-                      }}
-                      required
-                    >
-                      <option style={{ display: 'none' }} value="">
-                        Especialidades
-                      </option>
-                      {listaEspecialidades.map(especialidade => (
-                        <option
-                          value={especialidade.value}
-                          key={especialidade.label}
-                        >
-                          {especialidade.label}
-                        </option>
-                      ))}
-                    </select>
-                    <button type="submit">Procurar</button>
-                  </form>
-                </div>
-
-                <div className="illustration">
-                  <Image
-                    alt="Mãos à Obra Logo"
-                    src="/illustration.svg"
-                    width={600}
-                    height={450}
-                  />
-                </div>
-              </SearchContainer>
-
+            <>
               <div className="found-professionals">
                 <span>Profissionais encontrados: {total}</span>
               </div>
@@ -188,33 +191,50 @@ export default function Home({ users, page, maxPage, total }: UserProps) {
               <Pagination>
                 <div className="actions">
                   <button
-                    onClick={() => Router.push(`/?page=${page - 1}`)}
+                    onClick={() => Router.push(`${url}page=${page - 1}`)}
                     disabled={page <= 1}
                   >
                     <FaArrowLeft /> Anterior
                   </button>
                   <button
-                    onClick={() => Router.push(`/?page=${page + 1}`)}
+                    onClick={() => Router.push(`${url}page=${page + 1}`)}
                     disabled={page >= maxPage}
                   >
                     Próxima <FaArrowRight />
                   </button>
                 </div>
               </Pagination>
-            </Container>
+            </>
           )}
-        </div>
+        </Container>
       )}
     </div>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const currentPage: string | string[] | number = query.page || 1
+export const getServerSideProps: GetServerSideProps = async req => {
+  const currentPage: string | string[] | number = req.query.page || 1
+  const especialidade: string | string[] = req.query.especialidade
+  const city: string | string[] = req.query.city
 
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/users?page=${currentPage}`
-  )
+  let res: Response
+  let url: string
+
+  if (especialidade || city) {
+    res = await fetch(
+      `${process.env.NEXTAUTH_URL}/api/professionals?city=${city}&especialidade=${especialidade}&page=${currentPage}`
+    )
+
+    url = city
+      ? `?city=${city}&especialidade=${especialidade}&`
+      : `?especialidade=${especialidade}&`
+  } else {
+    res = await fetch(
+      `${process.env.NEXTAUTH_URL}/api/users?page=${currentPage}`
+    )
+    url = '/?'
+  }
+
   const data: UserProps = await res.json()
 
   const { users, page, maxPage, total } = data
@@ -226,6 +246,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   }
 
   return {
-    props: { users, page, maxPage, total }
+    props: { users, page, maxPage, total, url }
   }
 }

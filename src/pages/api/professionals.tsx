@@ -26,27 +26,51 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const perPage = 9
 
+    let users: any[]
+    let totalUsers: number
+
     try {
       const { db } = await connect()
-      const users = await db
-        .collection('users')
-        .find({
-          professional: true,
-          city: capitalizeString(city),
-          especialidades: capitalizeString(especialidade)
-        })
-        .skip((page - 1) * perPage)
-        .limit(perPage)
-        .toArray()
 
-      const totalUsers = await db
-        .collection('users')
-        .find({
-          professional: true,
-          city,
-          especialidades: especialidade
-        })
-        .count()
+      if (city !== 'undefined') {
+        users = await db
+          .collection('users')
+          .find({
+            professional: true,
+            city: capitalizeString(city),
+            especialidades: capitalizeString(especialidade)
+          })
+          .skip((page - 1) * perPage)
+          .limit(perPage)
+          .toArray()
+
+        totalUsers = await db
+          .collection('users')
+          .find({
+            professional: true,
+            city,
+            especialidades: especialidade
+          })
+          .count()
+      } else {
+        users = await db
+          .collection('users')
+          .find({
+            professional: true,
+            especialidades: capitalizeString(especialidade)
+          })
+          .skip((page - 1) * perPage)
+          .limit(perPage)
+          .toArray()
+
+        totalUsers = await db
+          .collection('users')
+          .find({
+            professional: true,
+            especialidades: especialidade
+          })
+          .count()
+      }
 
       return res.status(200).json({
         users,
