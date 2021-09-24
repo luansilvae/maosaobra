@@ -1,13 +1,17 @@
-import React, { FormEvent, useState } from 'react'
+import React, { useState } from 'react'
+import { Formik, Form, Field } from 'formik'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
+import * as Yup from 'yup'
 import { useSession } from 'next-auth/client'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { RiMapPinLine } from 'react-icons/ri'
+import { TiWarning } from 'react-icons/ti'
 
+import CustomSelect from '../components/CustomSelect'
 import Loading from '../components/Loading'
 import capitalizeString from '../utils/capitalizeString'
 import { listaEspecialidades } from '../utils/especialidades'
@@ -47,18 +51,14 @@ interface UserProps {
 
 export default function Home({ users, page, maxPage, total, url }: UserProps) {
   const [session, loading] = useSession()
+
   const [city, setCity] = useState('')
   const [especialidade, setEspecialidade] = useState('')
 
-  const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    Router.push(
-      city
-        ? `?city=${city}&especialidade=${especialidade}`
-        : `?especialidade=${especialidade}`
-    )
-  }
+  const validateSearch = Yup.object({
+    city: Yup.string().nullable(),
+    especialidade: Yup.string().required('Selecione uma especialidade.')
+  })
 
   return (
     <div>
@@ -96,35 +96,74 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
             <div className="search">
               <h1>Encontre um prestador de serviço</h1>
 
-              <form className="search-box" onSubmit={handleSearch}>
-                <input
-                  type="text"
-                  placeholder="Cidade"
-                  onChange={event => {
-                    setCity(capitalizeString(event.target.value.trim()))
-                  }}
-                />
+              <Formik
+                enableReinitialize={false}
+                initialValues={{ city, especialidade }}
+                validationSchema={validateSearch}
+                onSubmit={values => {
+                  const { city, especialidade } = values
 
-                <select
-                  onChange={event => {
-                    setEspecialidade(event.target.value)
-                  }}
-                  required
-                >
-                  <option style={{ display: 'none' }} value="">
-                    Especialidades
-                  </option>
-                  {listaEspecialidades.map(especialidade => (
-                    <option
-                      value={especialidade.value}
-                      key={especialidade.label}
-                    >
-                      {especialidade.label}
-                    </option>
-                  ))}
-                </select>
-                <button type="submit">Procurar</button>
-              </form>
+                  setCity(capitalizeString(city.trim()))
+                  setEspecialidade(especialidade)
+
+                  Router.push(
+                    city
+                      ? `?city=${city}&especialidade=${especialidade}`
+                      : `?especialidade=${especialidade}`
+                  )
+                }}
+              >
+                {formik => {
+                  const { errors, touched, isValid } = formik
+
+                  return (
+                    <Form className="search-box">
+                      <div
+                        className={
+                          errors.city && touched.city ? 'error input' : 'input'
+                        }
+                      >
+                        <Field id="city" name="city" placeholder="Cidade" />
+
+                        {errors.city && touched.city ? (
+                          <div className="error-message">
+                            <TiWarning size={21} />
+                            {errors.city}
+                          </div>
+                        ) : null}
+                      </div>
+
+                      <div
+                        className={
+                          errors.especialidade && touched.especialidade
+                            ? 'error input'
+                            : 'input'
+                        }
+                      >
+                        <Field
+                          name="especialidade"
+                          className="custom-select"
+                          options={listaEspecialidades}
+                          component={CustomSelect}
+                          instanceId="especialidade"
+                          placeholder="Especialidade"
+                        />
+
+                        {errors.especialidade && touched.especialidade ? (
+                          <div className="error-message">
+                            <TiWarning size={21} />
+                            {errors.especialidade}
+                          </div>
+                        ) : null}
+                      </div>
+
+                      <button type="submit" disabled={!isValid}>
+                        Procurar
+                      </button>
+                    </Form>
+                  )
+                }}
+              </Formik>
             </div>
 
             <div className="illustration">

@@ -48,7 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .collection('users')
           .find({
             professional: true,
-            city,
+            city: capitalizeString(city),
             especialidades: especialidade
           })
           .count()

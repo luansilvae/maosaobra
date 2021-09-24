@@ -43,8 +43,21 @@ export const CustomSelect = ({
     }
   }
 
+  function customTheme(theme: any) {
+    return {
+      ...theme,
+      border: '1px dotted pink',
+      colors: {
+        ...theme.colors,
+        primary25: '#d5ffeb',
+        primary: '#1DBF73'
+      }
+    }
+  }
+
   return (
     <Select
+      theme={customTheme}
       className={className}
       name={field.name}
       value={getValue()}

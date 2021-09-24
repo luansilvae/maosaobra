@@ -85,7 +85,6 @@ const Profile: React.FC = () => {
     especialidades: Yup.array()
       .min(1, 'Selecione pelo menos uma especialidade.')
       .required('Por favor, selecione uma especialidade.')
-      .nullable()
   })
 
   const [modalIsOpen, setModalIsOpen] = useState(false)

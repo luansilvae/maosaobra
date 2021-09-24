@@ -227,16 +227,6 @@ export const InputGroup = styled.div`
 
   .custom-select {
     margin-top: 0.7rem;
-    .css-1pahdxg-control {
-      border-color: none;
-      box-shadow: none;
-    }
-
-    > div {
-      &:focus-within {
-        border-color: #8d8d8d;
-      }
-    }
   }
 `
 

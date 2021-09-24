@@ -97,66 +97,93 @@ export const SearchContainer = styled.div`
       background: #ffffff;
       border-radius: 5px;
       border: 0.5px solid #e6e6e6;
-      padding: 2rem;
+      padding: 4rem 2rem;
       display: flex;
+      align-items: center;
       justify-content: space-between;
       gap: 2rem;
 
-      @media (max-width: 654px) {
+      .input {
+        input {
+          border-radius: 5px;
+          border: 0.5px solid #d6d6d6;
+          background: #ffffff;
+          padding: 0.7rem 1rem;
+          font-size: 1.6rem;
+          line-height: 2.4rem;
+          outline: 0;
+          color: ${props => props.theme.colors.title};
+
+          transition: border-color 0.2ms;
+
+          &:focus {
+            border-color: #8d8d8d;
+          }
+
+          &:disabled {
+            color: #8d8d8d;
+          }
+        }
+
+        position: relative;
+      }
+
+      .custom-select {
+        width: 30rem;
+      }
+
+      .error {
+        input {
+          border-color: #e72626;
+        }
+
+        .custom-select {
+          > div {
+            border-color: #e72626;
+
+            .css-1wa3eu0-placeholder {
+              color: #e72626;
+            }
+          }
+        }
+
+        .error-message {
+          width: 100%;
+          position: absolute;
+          display: flex;
+
+          font-size: 1.5rem;
+          margin-top: 0.5rem;
+          color: #e72626;
+
+          svg {
+            margin-right: 0.6rem;
+          }
+        }
+      }
+
+      @media (max-width: 660px) {
         flex-direction: column;
         max-width: 100vw;
-      }
+        padding: 2rem;
 
-      input {
-        border-radius: 5px;
-        border: 0.5px solid #d6d6d6;
-        background: #ffffff;
-        padding: 1rem 2rem;
-        color: #808086;
-        font-size: 1.6rem;
-        line-height: 2.4rem;
-        outline: 0;
-
-        @media (max-width: 480px) {
-          font-size: 1.8rem;
+        .input {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
         }
 
-        &:focus {
-          border-color: ${props => props.theme.colors.primary};
-        }
-      }
-
-      select {
-        border-radius: 5px;
-        border: 0.5px solid #d6d6d6;
-        background: #ffffff;
-        padding: 1rem 10rem 1rem 2rem;
-        color: #808086;
-        font-size: 1.6rem;
-        line-height: 2.4rem;
-        outline: 0;
-        cursor: pointer;
-
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-image: url("data:image/svg+xml;utf8,<svg fill='grey' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
-        background-repeat: no-repeat;
-        background-position-x: 96%;
-        background-position-y: 9px;
-
-        @media (max-width: 480px) {
-          font-size: 1.8rem;
+        .custom-select {
+          width: 100%;
         }
 
-        &:focus {
-          border-color: ${props => props.theme.colors.primary};
+        .error-message {
+          top: 4.2rem;
         }
 
-        option {
-          background: #edfff4;
-          font-size: 1.7rem;
-          color: #1dbf73;
-          padding: 3rem;
+        button {
+          margin-top: 2.5rem;
+          width: 100%;
         }
       }
 
