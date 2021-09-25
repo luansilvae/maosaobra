@@ -9,22 +9,6 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
-  .found-professionals {
-    background: #ffffff;
-    border: 0.5px solid #d6d6d6;
-    border-radius: 5px;
-    padding: 1rem 2rem;
-    text-align: center;
-    margin: 2rem auto;
-
-    span {
-      font-size: 1.5rem;
-      font-weight: 500;
-      line-height: 2.4rem;
-      color: ${props => props.theme.colors.title};
-    }
-  }
-
   @media (max-width: 950px) {
     flex-direction: column;
     justify-content: center;
@@ -54,22 +38,6 @@ export const LandingContainer = styled.div`
 
   @media (max-width: 480px) {
     padding: 2.5rem 1rem;
-  }
-
-  .found-professionals {
-    background: #ffffff;
-    border: 0.5px solid #d6d6d6;
-    border-radius: 5px;
-    padding: 1rem 2rem;
-    text-align: center;
-    margin: 2rem auto;
-
-    span {
-      font-size: 1.3rem;
-      font-weight: 400;
-      line-height: 2.4rem;
-      color: tomato;
-    }
   }
 
   .welcome {
@@ -426,6 +394,34 @@ export const Pagination = styled.div`
         color: #9b9b9b;
         cursor: not-allowed;
       }
+    }
+  }
+`
+
+export const FoundProfessionals = styled.div`
+  max-width: 1580px;
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 2rem;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      font-size: 1.8rem;
+      span {
+        color: ${props => props.theme.colors.primary};
+        text-decoration: underline;
+        font-weight: 500;
+        margin: 0 0.3rem;
+      }
+    }
+
+    > span {
+      font-size: 1.7rem;
     }
   }
 `

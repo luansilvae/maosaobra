@@ -21,7 +21,8 @@ import {
   LandingContainer,
   SearchContainer,
   UsersList,
-  Pagination
+  Pagination,
+  FoundProfessionals
 } from '../styles/home'
 
 interface User {
@@ -175,16 +176,54 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
             </div>
           </SearchContainer>
           {users.length < 1 ? (
-            <Container>
-              <div className="found-professionals">
-                <span>Nenhum profissional encontrado</span>
-              </div>
-            </Container>
+            <FoundProfessionals>
+              {!city && !especialidade ? (
+                <div>
+                  <h3>Infelizmente nenhum profissional foi encontrado.</h3>
+                  <span>Tente buscar por um outro termo de pesquisa.</span>
+                </div>
+              ) : !city ? (
+                <div>
+                  <h3>
+                    Resultados para: <span>{especialidade}</span>
+                  </h3>
+                  <span>Infelizmente não encontramos nenhum profissional.</span>
+                </div>
+              ) : (
+                <div>
+                  <h3>
+                    Resultados para: <span>{especialidade}</span> em{' '}
+                    <span>{city}</span>
+                  </h3>
+                  <span>Infelizmente não encontramos nenhum profissional.</span>
+                </div>
+              )}
+            </FoundProfessionals>
           ) : (
             <>
-              <div className="found-professionals">
-                <span>Profissionais encontrados: {total}</span>
-              </div>
+              <FoundProfessionals>
+                {!city && !especialidade ? (
+                  <div>
+                    <h3>Estes são os profissionais mais recentes.</h3>
+                    <span>Profissionais encontrados: {total}</span>
+                  </div>
+                ) : !city ? (
+                  <div>
+                    <h3>
+                      Resultados para: <span>{especialidade}</span>
+                    </h3>
+                    <span>Profissionais encontrados: {total}</span>
+                  </div>
+                ) : (
+                  <div>
+                    <h3>
+                      Resultados para: <span>{especialidade}</span> em{' '}
+                      <span>{city}</span>
+                    </h3>
+                    <span>Profissionais encontrados: {total}</span>
+                  </div>
+                )}
+              </FoundProfessionals>
 
               <UsersList>
                 {users.map(user => {
