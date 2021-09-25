@@ -20,7 +20,6 @@ import {
   Container,
   LandingContainer,
   SearchContainer,
-  Welcome,
   UsersList,
   Pagination
 } from '../styles/home'
@@ -70,7 +69,7 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
         <Loading />
       ) : !session ? (
         <LandingContainer>
-          <Welcome>
+          <div className="welcome">
             <h1>Bem-vindo ao Mãos à Obra </h1>
             <h2>Encontre o prestador de serviços mais próximo de você.</h2>
 
@@ -81,7 +80,7 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
                 </a>
               </Link>
             )}
-          </Welcome>
+          </div>
 
           <Image
             alt="Mãos à Obra Logo"

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { fade, move, moveTop } from '../styles/animations'
 export const Container = styled.div`
   max-width: 1580px;
   padding: 2.5rem 4rem;
@@ -45,6 +46,16 @@ export const LandingContainer = styled.div`
   justify-content: space-between;
   height: calc(100vh - 9.4rem);
 
+  @media (max-width: 950px) {
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 2.5rem 1rem;
+  }
+
   .found-professionals {
     background: #ffffff;
     border: 0.5px solid #d6d6d6;
@@ -61,14 +72,66 @@ export const LandingContainer = styled.div`
     }
   }
 
-  @media (max-width: 950px) {
-    flex-direction: column;
-    justify-content: center;
-    gap: 2rem;
+  .welcome {
+    animation: ${move} 1s;
+
+    h1 {
+      font-size: 4.3rem;
+      max-width: 35rem;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: ${props => props.theme.colors.text};
+      margin-bottom: 2rem;
+    }
+
+    a {
+      background: none;
+      border: none;
+      color: ${props => props.theme.colors.primary};
+      font-weight: 700;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      max-width: 35rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 950px) {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      h1,
+      h2,
+      a {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 3.5rem;
+      }
+
+      h2 {
+        font-size: 1.7rem;
+      }
+
+      a {
+        font-size: 1.5rem;
+        justify-content: center;
+      }
+    }
   }
 
-  @media (max-width: 480px) {
-    padding: 2.5rem 1rem;
+  img {
+    overflow: hidden;
+    animation: ${fade} 1s;
   }
 `
 
@@ -79,7 +142,20 @@ export const SearchContainer = styled.div`
   align-items: center;
   height: 600px;
 
+  @media (max-width: 1280px) {
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    height: 100%;
+
+    .illustration {
+      display: none;
+    }
+  }
+
   .search {
+    animation: ${move} 1s;
+
     h1 {
       font-size: 4rem;
       max-width: 55rem;
@@ -209,70 +285,8 @@ export const SearchContainer = styled.div`
     }
   }
 
-  @media (max-width: 1280px) {
-    flex-direction: column;
-    justify-content: center;
-    gap: 2rem;
-    height: 100%;
-
-    .illustration {
-      display: none;
-    }
-  }
-`
-
-export const Welcome = styled.div`
-  h1 {
-    font-size: 4.3rem;
-    max-width: 35rem;
-    margin-bottom: 2rem;
-  }
-
-  h2 {
-    font-size: 2.2rem;
-    font-weight: 400;
-    color: ${props => props.theme.colors.text};
-    margin-bottom: 2rem;
-  }
-
-  a {
-    background: none;
-    border: none;
-    color: ${props => props.theme.colors.primary};
-    font-weight: 700;
-    font-size: 1.6rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    max-width: 35rem;
-    cursor: pointer;
-  }
-
-  @media (max-width: 950px) {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    h1,
-    h2,
-    a {
-      width: 100%;
-      text-align: center;
-    }
-  }
-
-  @media (max-width: 480px) {
-    h1 {
-      font-size: 3.5rem;
-    }
-
-    h2 {
-      font-size: 1.7rem;
-    }
-
-    a {
-      font-size: 1.5rem;
-      justify-content: center;
-    }
+  .illustration {
+    animation: ${fade} 1s;
   }
 `
 
@@ -282,6 +296,8 @@ export const UsersList = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+
+  animation: ${moveTop} 1s;
 
   @media (max-width: 1280px) {
     grid-template-columns: repeat(2, 1fr);
