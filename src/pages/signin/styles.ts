@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { move, fade } from '../../styles/animations'
 
 const Container = styled.div`
   max-width: 1080px;
@@ -19,6 +20,7 @@ const Container = styled.div`
 export const LoginBoxBrand = styled.div`
   width: 60rem;
   padding: 0 2rem;
+  animation: ${move} 1s;
 
   h1 {
     font-size: 4.3rem;
@@ -57,6 +59,8 @@ export const LoginBox = styled.div`
   text-align: center;
   padding: 4rem 7rem;
 
+  animation: ${fade} 500ms;
+
   @media (max-width: 540px) {
     width: 100%;
     border: none;
@@ -89,6 +93,31 @@ export const LoginBox = styled.div`
       font-size: 1.7rem;
     }
   }
+
+  .error-signin {
+    background: #fef2f2;
+    border-radius: 5px;
+    padding: 2rem;
+    animation: ${fade} 500ms;
+
+    span {
+      font-weight: 500;
+      color: #9c2222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        margin-right: 1rem;
+      }
+    }
+
+    p {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: 400;
+      color: #b91c1c;
+    }
+  }
 `
 
 export const LoginOptions = styled.div`
@@ -114,6 +143,10 @@ export const LoginOptions = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    svg.linkedin {
+      color: #0e76a8;
+    }
   }
 `
 

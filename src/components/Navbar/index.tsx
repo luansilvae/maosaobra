@@ -184,7 +184,7 @@ export default function Navbar() {
           ) : loading ? (
             <LoadingHeaderActions />
           ) : (
-            <Link href="signin">
+            <Link href="/signin">
               <button className="signin">Entrar</button>
             </Link>
           )}

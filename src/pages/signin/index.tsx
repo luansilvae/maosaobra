@@ -3,12 +3,13 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { signIn, useSession } from 'next-auth/client'
 import { FcGoogle } from 'react-icons/fc'
+import { SiLinkedin } from 'react-icons/si'
 
 import Loading from '../../components/Loading'
 
 import Container, { LoginBoxBrand, LoginBox, LoginOptions } from './styles'
 
-export default function SignIn() {
+export default function SignIn({ children }) {
   const [session, loading] = useSession()
 
   const router = useRouter()
@@ -42,14 +43,29 @@ export default function SignIn() {
               <LoginOptions>
                 <button
                   onClick={() =>
+                    signIn('linkedin', {
+                      callbackUrl: '/signin',
+                      redirect: true
+                    })
+                  }
+                >
+                  <SiLinkedin size={28} className="linkedin" /> Continuar com
+                  LinkedIn
+                  <span></span>
+                </button>
+
+                <button
+                  onClick={() =>
                     signIn('google', {
-                      callbackUrl: '/'
+                      callbackUrl: '/signin',
+                      redirect: true
                     })
                   }
                 >
                   <FcGoogle size={28} /> Continuar com Google <span></span>
                 </button>
               </LoginOptions>
+              {children}
             </LoginBox>
           </Container>
         )
