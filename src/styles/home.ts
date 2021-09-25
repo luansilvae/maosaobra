@@ -399,12 +399,16 @@ export const Pagination = styled.div`
 `
 
 export const FoundProfessionals = styled.div`
-  max-width: 1580px;
   width: 100%;
   display: flex;
   justify-content: left;
   align-items: center;
   margin-top: 2rem;
+
+  @media (max-width: 660px) {
+    justify-content: center;
+    text-align: center;
+  }
 
   > div {
     display: flex;
