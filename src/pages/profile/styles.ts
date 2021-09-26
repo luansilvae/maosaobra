@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { fade, move } from '../../styles/animations'
 
 const Container = styled.div`
   max-width: 1200px;
@@ -27,6 +28,8 @@ const Container = styled.div`
     display: flex;
     align-items: center;
 
+    animation: ${move} 1s;
+
     svg {
       margin-right: 2rem;
       color: ${props => props.theme.colors.primary};
@@ -47,6 +50,8 @@ const Container = styled.div`
       background-color: #ffffff;
       border: 0.5px solid #f0f0f0;
       border-radius: 5px;
+
+      animation: ${fade} 1s;
 
       h3 {
         display: flex;

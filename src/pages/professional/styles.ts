@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { fade, moveTop } from '../../styles/animations'
 
 const Container = styled.div`
   .user-content {
@@ -7,9 +8,10 @@ const Container = styled.div`
     align-items: center;
     margin: 0 auto;
     max-width: 1100px;
-
     gap: 3rem;
     padding: 6rem 4rem;
+
+    animation: ${fade} 1s;
 
     @media (max-width: 950px) {
       flex-direction: column;
@@ -123,6 +125,8 @@ const Container = styled.div`
     margin: 0 auto;
     gap: 3rem;
     padding: 0 3rem;
+
+    animation: ${moveTop} 1s;
 
     @media (max-width: 1070px) {
       grid-template-columns: 1fr 1fr;

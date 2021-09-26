@@ -405,6 +405,8 @@ export const FoundProfessionals = styled.div`
   align-items: center;
   margin-top: 2rem;
 
+  animation: ${move} 1s;
+
   @media (max-width: 660px) {
     justify-content: center;
     text-align: center;
