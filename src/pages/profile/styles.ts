@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { fade, move } from '../../styles/animations'
+import { fade, move, moveTop } from '../../styles/animations'
 
 const Container = styled.div`
   max-width: 1200px;
@@ -139,6 +139,114 @@ const Container = styled.div`
       }
     }
   }
+
+  .hidden-container {
+    display: none;
+  }
+
+  .modal-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.164);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal {
+      animation: ${moveTop} 500ms;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin: 2rem;
+      padding: 2rem;
+      position: relative;
+      background: white;
+      border-radius: 5px;
+
+      .modal-content {
+        display: flex;
+        align-items: top;
+        width: 100%;
+        gap: 1.5rem;
+
+        span {
+          background: #ffdfde;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 38px;
+          width: 38px;
+          min-width: 38px;
+          min-height: 38px;
+          border-radius: 50%;
+
+          svg {
+            color: #be2b23;
+          }
+        }
+
+        h3 {
+          font-weight: 500;
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        p {
+          font-size: 1.5rem;
+          color: ${props => props.theme.colors.text};
+        }
+      }
+
+      .modal-actions {
+        width: 100%;
+        margin-top: 2rem;
+        gap: 2rem;
+        display: flex;
+        justify-content: right;
+
+        @media (max-width: 480px) {
+          justify-content: center;
+          align-items: center;
+        }
+
+        button {
+          padding: 0.5rem 1.3rem;
+          font-weight: 400;
+          border-radius: 5px;
+          cursor: pointer;
+          border: none;
+          font-size: 1.5rem;
+          transition: background-color 200ms;
+        }
+
+        button.btn-cancel {
+          background: #ffffff;
+          border: solid 0.5px #d6d6d6;
+          color: ${props => props.theme.colors.title};
+
+          &:hover {
+            background-color: #fafafa;
+          }
+        }
+
+        button.btn-delete {
+          background: #e72626;
+          color: #ffffff;
+
+          &:hover {
+            background-color: #c41818;
+          }
+        }
+      }
+    }
+  }
 `
 
 export const InputGroup = styled.div`
@@ -232,45 +340,6 @@ export const InputGroup = styled.div`
 
   .custom-select {
     margin-top: 0.7rem;
-  }
-`
-
-export const ModalItem = styled.div`
-  font-size: 1.7rem;
-  color: ${props => props.theme.colors.title};
-  text-align: center;
-
-  .actions {
-    margin-top: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-
-    button {
-      padding: 1rem;
-      background: ${props => props.theme.colors.primary};
-      color: #ffffff;
-      font-weight: 500;
-      border: 0;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1.5rem;
-
-      transition: background-color 0.2s;
-
-      &:hover {
-        background-color: #18a061;
-      }
-    }
-
-    button:nth-child(2) {
-      background-color: #e72626;
-
-      &:hover {
-        background-color: #d43333;
-      }
-    }
   }
 `
 

@@ -5,12 +5,11 @@ import Router from 'next/router'
 import axios from 'axios'
 import * as Yup from 'yup'
 import InputMask from 'react-input-mask'
-import Modal from 'react-modal'
 import { useSession } from 'next-auth/client'
 import { ToastContainer } from 'react-toastify'
 import { FaUser, FaFileAlt } from 'react-icons/fa'
 import { MdLocationOn, MdWork } from 'react-icons/md'
-import { TiWarning } from 'react-icons/ti'
+import { TiWarning, TiWarningOutline } from 'react-icons/ti'
 
 import Loading from '../../components/Loading'
 import NotLoggedPage from '../../components/NotLoggedPage'
@@ -22,9 +21,9 @@ import { listaEspecialidades } from '../../utils/especialidades'
 import capitalizeString from '../../utils/capitalizeString'
 
 import 'react-toastify/dist/ReactToastify.css'
-import Container, { InputGroup, ModalItem } from './styles'
+import Container, { InputGroup } from './styles'
 
-const Profile: React.FC = () => {
+const Profile = ({ id = 'modal-container' }) => {
   const [session, loading] = useSession()
 
   const { data } = useFetch(`/api/user/${session?.user.email}`)
@@ -89,25 +88,6 @@ const Profile: React.FC = () => {
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
-  function openModal() {
-    setModalIsOpen(true)
-  }
-
-  function closeModal() {
-    setModalIsOpen(false)
-  }
-
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
-    }
-  }
-
   const deleteProfessional = async () => {
     const deletedProfessional = {
       especialidades: [],
@@ -124,6 +104,10 @@ const Profile: React.FC = () => {
 
       Router.reload()
     }
+  }
+
+  const handleOutsideClick = (e: any) => {
+    if (e.target.id === id) setModalIsOpen(false)
   }
 
   const handleKeyUp = useCallback((e: React.FormEvent<HTMLInputElement>) => {
@@ -551,7 +535,7 @@ const Profile: React.FC = () => {
                             {data.professional && (
                               <span
                                 className="delete-button"
-                                onClick={openModal}
+                                onClick={() => setModalIsOpen(true)}
                               >
                                 Excluir perfil profissional
                               </span>
@@ -570,24 +554,36 @@ const Profile: React.FC = () => {
                 </div>
               </div>
 
-              <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Logout"
-                ariaHideApp={false}
+              <div
+                className={modalIsOpen ? 'modal-container' : 'hidden-container'}
+                id={id}
+                onClick={handleOutsideClick}
               >
-                <ModalItem>
-                  <span>
-                    Tem certeza que quer excluir seus dados profissionais?
-                  </span>
-
-                  <div className="actions">
-                    <button onClick={deleteProfessional}>Excluir</button>
-                    <button onClick={closeModal}>Cancelar</button>
+                <div className="modal">
+                  <div className="modal-content">
+                    <span>
+                      <TiWarningOutline size={25} />
+                    </span>
+                    <div className="modal-text">
+                      <h3>Excluir perfil</h3>
+                      <p>
+                        Tem certeza que quer excluir seu perfil profissional?
+                      </p>
+                    </div>
                   </div>
-                </ModalItem>
-              </Modal>
+                  <div className="modal-actions">
+                    <button
+                      className="btn-cancel"
+                      onClick={() => setModalIsOpen(false)}
+                    >
+                      Cancelar
+                    </button>
+                    <button className="btn-delete" onClick={deleteProfessional}>
+                      Excluir
+                    </button>
+                  </div>
+                </div>
+              </div>
 
               <ToastContainer
                 position="top-right"
