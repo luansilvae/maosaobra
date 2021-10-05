@@ -5,5 +5,16 @@ export const listaEspecialidades = [
   { label: 'Pedreiro', value: 'Pedreiro' },
   { label: 'Gesseiro', value: 'Gesseiro' },
   { label: 'Montador', value: 'Montador' },
-  { label: 'Mecânico', value: 'Mecânico' }
+  { label: 'Mecânico', value: 'Mecânico' },
+  { label: 'Gesseiro', value: 'Gesseiro' },
+  { label: 'Técnico de Informática', value: 'Técnico de Informática' },
+  { label: 'Diarista', value: 'Diarista' },
+  { label: 'Reboque', value: 'Reboque' },
+  { label: 'Cozinheiro', value: 'Cozinheiro' },
+  { label: 'Babá', value: 'Babá' },
+  { label: 'Professor', value: 'Professor' },
+  { label: 'Jardineiro', value: 'Jardineiro' },
+  { label: 'Piscineiro', value: 'Piscineiro' },
+  { label: 'Passeador', value: 'Passeador' },
+  { label: 'Cuidador', value: 'Cuidador' }
 ]
