@@ -4,7 +4,6 @@ import Head from 'next/head'
 import Router from 'next/router'
 import axios from 'axios'
 import * as Yup from 'yup'
-import InputMask from 'react-input-mask'
 import { useSession } from 'next-auth/client'
 import { ToastContainer } from 'react-toastify'
 import { FaUser, FaFileAlt } from 'react-icons/fa'
@@ -14,11 +13,11 @@ import { TiWarning, TiWarningOutline } from 'react-icons/ti'
 import Loading from '../../components/Loading'
 import NotLoggedPage from '../../components/NotLoggedPage'
 import CustomSelect from '../../components/CustomSelect'
-
 import { useFetch } from '../../hooks/useFetch'
 import { notify } from '../../utils/notify'
 import { listaEspecialidades } from '../../utils/especialidades'
 import capitalizeString from '../../utils/capitalizeString'
+import { cepMask, cnpjMask, phoneMask } from '../../utils/masks'
 
 import 'react-toastify/dist/ReactToastify.css'
 import Container, { InputGroup } from './styles'
@@ -51,9 +50,10 @@ const Profile = ({ id = 'modal-container' }) => {
     email: Yup.string()
       .email('Email inválido.')
       .required('Email é obrigatório.'),
-    phone: Yup.string().required(
-      'Por favor, preencha com seu telefone de contato.'
-    ),
+    phone: Yup.string()
+      .required('Por favor, preencha com seu telefone de contato.')
+      .min(15, 'Número de telefone inválido.')
+      .max(15, 'Número de telefone inválido.'),
     city: Yup.string()
       .required('Por favor, preencha com sua cidade.')
       .max(20, 'Cidade aceita no máximo 20 caracteres.'),
@@ -110,13 +110,24 @@ const Profile = ({ id = 'modal-container' }) => {
     if (e.target.id === id) setModalIsOpen(false)
   }
 
-  const handleKeyUp = useCallback((e: React.FormEvent<HTMLInputElement>) => {
-    e.currentTarget.maxLength = 9
-    let value = e.currentTarget.value
-    value = value.replace(/\D/g, '')
-    value = value.replace(/^(\d{5})(\d)/, '$1-$2')
-    e.currentTarget.value = value
-  }, [])
+  const handleInputMask = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      const { name } = e.currentTarget
+
+      if (name === 'phone') {
+        phoneMask(e)
+      }
+
+      if (name === 'cep') {
+        cepMask(e)
+      }
+
+      if (name === 'cnpj') {
+        cnpjMask(e)
+      }
+    },
+    []
+  )
 
   return (
     <div>
@@ -269,16 +280,11 @@ const Profile = ({ id = 'modal-container' }) => {
                               }
                             >
                               <label htmlFor="phone">Telefone</label>
-                              <Field name="phone">
-                                {({ field }) => (
-                                  <InputMask
-                                    {...field}
-                                    mask={'(99) 99999-9999'}
-                                    id="phone"
-                                    type="text"
-                                  />
-                                )}
-                              </Field>
+                              <Field
+                                name="phone"
+                                id="phone"
+                                onKeyUp={handleInputMask}
+                              />
 
                               {errors.phone && touched.phone ? (
                                 <div className="error-message">
@@ -305,7 +311,7 @@ const Profile = ({ id = 'modal-container' }) => {
                               <Field
                                 id="cep"
                                 name="cep"
-                                onKeyUp={handleKeyUp}
+                                onKeyUp={handleInputMask}
                                 onBlur={(event: {
                                   target: {
                                     value: React.FormEvent<HTMLFormElement>
@@ -507,16 +513,12 @@ const Profile = ({ id = 'modal-container' }) => {
                               }
                             >
                               <label htmlFor="cnpj">CNPJ</label>
-                              <Field id="cnpj" name="cnpj">
-                                {({ field }) => (
-                                  <InputMask
-                                    {...field}
-                                    mask={'99.999.999/9999-99'}
-                                    id="cnpj"
-                                    type="text"
-                                  />
-                                )}
-                              </Field>
+                              <Field
+                                id="cnpj"
+                                name="cnpj"
+                                onKeyUp={handleInputMask}
+                              />
+
                               {errors.cnpj && touched.cnpj ? (
                                 <div className="error-message">
                                   <TiWarning size={21} />
