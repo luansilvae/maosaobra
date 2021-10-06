@@ -25,15 +25,16 @@ interface User {
   name: string
   email: string
   image: string
-  city: string
-  neighborhood: string
+  address: {
+    city: string
+    neighborhood: string
+    state: string
+  }
   phone: string
-  state: string
   cnpj: string
   description: string
   especialidades: string[]
   experience: number
-  professional: boolean
   createdAt: Date
 }
 
@@ -96,8 +97,8 @@ export default function Professional({ user }) {
         <div className="user-location">
           <span>
             <RiMapPinLine size={25} />
-            {professional.neighborhood}, {professional.city} -{' '}
-            {professional.state}
+            {professional.address.neighborhood}, {professional.address.city} -{' '}
+            {professional.address.state}
           </span>
 
           {data && data._id === professional._id && (

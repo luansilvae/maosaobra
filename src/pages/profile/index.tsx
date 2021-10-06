@@ -143,7 +143,17 @@ const Profile = ({ id = 'modal-container' }) => {
                     validationSchema={validateUser}
                     onSubmit={values => {
                       notify('Dados de usuários atualizados', '#1dbf73')
-                      axios.put(`/api/user`, values)
+                      axios.put(`/api/user`, {
+                        name: values.name,
+                        email: values.email,
+                        phone: values.phone,
+                        address: {
+                          city: values.city,
+                          neighborhood: values.neighborhood,
+                          state: values.state,
+                          cep: values.cep
+                        }
+                      })
                     }}
                   >
                     {formik => {
@@ -195,15 +205,20 @@ const Profile = ({ id = 'modal-container' }) => {
                         axios
                           .get(`/api/user/${session?.user.email}`)
                           .then(response => {
-                            const {
-                              name,
-                              email,
-                              phone,
-                              city,
-                              neighborhood,
-                              state,
-                              cep
-                            } = response.data
+                            const { name, email, phone, address } =
+                              response.data
+
+                            let city: string
+                            let state: string
+                            let neighborhood: string
+                            let cep: string
+
+                            if (address) {
+                              city = address.city
+                              state = address.state
+                              neighborhood = address.neighborhood
+                              cep = address.cep
+                            }
 
                             setUserData({
                               name: capitalizeString(name),
@@ -378,9 +393,9 @@ const Profile = ({ id = 'modal-container' }) => {
                     onSubmit={values => {
                       if (
                         !data.phone ||
-                        !data.city ||
-                        !data.neighborhood ||
-                        !data.state
+                        !data.address.city ||
+                        !data.address.neighborhood ||
+                        !data.address.state
                       ) {
                         notify('Finalize os dados de usuário.', '#d83024')
                       } else {

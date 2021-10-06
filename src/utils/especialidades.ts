@@ -6,7 +6,6 @@ export const listaEspecialidades = [
   { label: 'Gesseiro', value: 'Gesseiro' },
   { label: 'Montador', value: 'Montador' },
   { label: 'Mecânico', value: 'Mecânico' },
-  { label: 'Gesseiro', value: 'Gesseiro' },
   { label: 'Técnico de Informática', value: 'Técnico de Informática' },
   { label: 'Diarista', value: 'Diarista' },
   { label: 'Reboque', value: 'Reboque' },

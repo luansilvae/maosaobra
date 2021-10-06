@@ -5,15 +5,18 @@ interface User {
   name: string
   email: string
   image: string
-  city: string
-  neighborhood: string
   phone: string
-  state: string
   cnpj: string
   description: string
   especialidades: string[]
   experience: number
   professional: boolean
+  address: {
+    state: string
+    neighborhood: string
+    city: string
+    cep: string
+  }
 }
 
 export function useFetch(url: string) {

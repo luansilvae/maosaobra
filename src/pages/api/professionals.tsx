@@ -7,15 +7,17 @@ interface User {
   name: string
   email: string
   image: string
-  city: string
-  neighborhood: string
   phone: string
-  state: string
+  address: {
+    city: string
+    neighborhood: string
+    state: string
+  }
+  professional: boolean
   cnpj: string
   description: string
   especialidades: string[]
   experience: number
-  professional: boolean
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -37,8 +39,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .collection('users')
           .find({
             professional: true,
-            city: capitalizeString(city),
-            especialidades: capitalizeString(especialidade)
+            especialidades: capitalizeString(especialidade),
+            'address.city': capitalizeString(city)
           })
           .skip((page - 1) * perPage)
           .limit(perPage)
@@ -48,8 +50,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .collection('users')
           .find({
             professional: true,
-            city: capitalizeString(city),
-            especialidades: especialidade
+            especialidades: especialidade,
+            'address.city': capitalizeString(city)
           })
           .count()
       } else {

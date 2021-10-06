@@ -28,17 +28,13 @@ import {
 interface User {
   _id: string
   name: string
-  email: string
   image: string
-  city: string
-  neighborhood: string
-  phone: string
-  state: string
-  cnpj: string
   description: string
   especialidades: string[]
-  experience: number
-  professional: boolean
+  address: {
+    state: string
+    city: string
+  }
 }
 
 interface UserProps {
@@ -243,8 +239,8 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
                           </Link>
 
                           <span>
-                            <RiMapPinLine size={22} /> {user.city} -{' '}
-                            {user.state}
+                            <RiMapPinLine size={22} /> {user.address.city} -{' '}
+                            {user.address.state}
                           </span>
                         </div>
                       </div>

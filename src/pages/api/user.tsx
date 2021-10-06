@@ -14,16 +14,18 @@ interface User {
   name: string
   email: string
   image: string
-  city: string
-  neighborhood: string
   phone: string
-  state: string
-  cep: string
   cnpj: string
   description: string
   especialidades: string[]
   experience: number
   professional: boolean
+  address: {
+    cep: string
+    state: string
+    neighborhood: string
+    city: string
+  }
 }
 
 export default async (
@@ -31,17 +33,13 @@ export default async (
   res: NextApiResponse<ErrorResponseType | SuccessResponseType>
 ) => {
   if (req.method === 'PUT') {
-    const { name, email, phone, state, city, neighborhood, cep }: User =
-      req.body
+    const { name, email, phone, address }: User = req.body
 
     const { db } = await connect()
 
     await db
       .collection('users')
-      .updateOne(
-        { email: email },
-        { $set: { name, phone, state, city, neighborhood, cep } }
-      )
+      .updateOne({ email: email }, { $set: { name, phone, address } })
 
     return res.status(200).json({ message: 'Usuário alterado com sucesso.' })
   } else {
