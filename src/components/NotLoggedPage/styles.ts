@@ -1,33 +1,45 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  height: calc(100vh - 9.4rem);
-  max-width: 550px;
-  align-items: center;
+const Container = styled.div`
   display: flex;
-  margin: 0 auto;
-  text-align: center;
-  padding: 0 4rem;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  padding: 3rem;
+  height: calc(100vh - 8.1rem);
 
-  a.signin {
-    cursor: pointer;
+  .unauthorized-page {
     display: flex;
     align-items: center;
-    font-size: 1.8rem;
-    font-weight: 500;
-    border: none;
-    background: ${props => props.theme.colors.primary};
-    color: #ffffff;
-    border-radius: 5px;
-    padding: 1.2rem;
-    justify-content: center;
-    margin-top: 3rem;
-  }
-
-  div.image {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-bottom: 3rem;
+    text-align: center;
+    gap: 0.7rem;
+
+    h1 {
+      font-size: 6rem;
+      letter-spacing: 0.5rem;
+      color: ${props => props.theme.colors.primary};
+    }
+
+    h2 {
+      color: ${props => props.theme.colors.title};
+    }
+
+    span {
+      color: ${props => props.theme.colors.text};
+    }
+
+    a {
+      margin-top: 1rem;
+      font-weight: 500;
+      color: ${props => props.theme.colors.primary};
+      transition: color 200ms;
+
+      &:hover {
+        color: #18a061;
+      }
+    }
   }
 `
+
+export default Container

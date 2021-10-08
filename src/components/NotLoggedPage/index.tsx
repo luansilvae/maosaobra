@@ -3,9 +3,8 @@ import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
 import Loading from '../Loading'
-import Logo from '../Logo'
 
-import { Container } from './styles'
+import Container from './styles'
 
 const NotLoggedPage: React.FC = () => {
   const [session, loading] = useSession()
@@ -20,17 +19,12 @@ const NotLoggedPage: React.FC = () => {
       ) : (
         !session && (
           <Container>
-            <div>
-              <div className="image">
-                <Link href="/">
-                  <a>
-                    <Logo />
-                  </a>
-                </Link>
-              </div>
-              <h2>Ops.. você precisa estar logado para acessar essa página</h2>
+            <div className="unauthorized-page">
+              <h1>401.</h1>
+              <h2>Oops! Algo deu errado :(</h2>
+              <span>Você precisa estar logado para acessar essa página.</span>
               <Link href="/signin">
-                <a className="signin">Fazer login</a>
+                <a>Fazer login</a>
               </Link>
             </div>
           </Container>
