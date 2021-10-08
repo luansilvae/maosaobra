@@ -12,7 +12,45 @@ const Container = styled.div`
 
   .header-profile {
     width: 100%;
+    margin-bottom: 4rem;
     display: flex;
+    align-items: center;
+
+    h1 {
+      display: flex;
+      align-items: center;
+      color: ${props => props.theme.colors.title};
+      cursor: pointer;
+      transition: color 200ms;
+      animation: ${move} 1s;
+
+      &:hover {
+        color: ${props => props.theme.colors.primary};
+      }
+
+      svg {
+        margin-right: 2rem;
+        color: ${props => props.theme.colors.primary};
+      }
+    }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      animation: ${move} 1s;
+    }
+
+    @media (max-width: 580px) {
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      gap: 0.8rem;
+
+      h2 svg {
+        display: none;
+      }
+    }
 
     @media (max-width: 480px) {
       justify-content: center;
@@ -20,19 +58,10 @@ const Container = styled.div`
       h1 {
         font-size: 2.4rem;
       }
-    }
-  }
 
-  h1 {
-    margin-bottom: 4rem;
-    display: flex;
-    align-items: center;
-
-    animation: ${move} 1s;
-
-    svg {
-      margin-right: 2rem;
-      color: ${props => props.theme.colors.primary};
+      h2 {
+        font-size: 2rem;
+      }
     }
   }
 

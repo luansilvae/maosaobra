@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify'
 import { FaUser } from 'react-icons/fa'
 import { MdWork } from 'react-icons/md'
 import { TiWarning, TiWarningOutline } from 'react-icons/ti'
+import { RiArrowRightSLine } from 'react-icons/ri'
 
 import Loading from '../../../components/Loading'
 import NotLoggedPage from '../../../components/NotLoggedPage'
@@ -21,6 +22,7 @@ import Container, { InputGroup } from './styles'
 import { listaEspecialidades } from '../../../utils/especialidades'
 import CustomSelect from '../../../components/CustomSelect'
 import Unauthorized from '../../../components/Unauthorized'
+import Link from 'next/link'
 
 const Professional = ({ id = 'modal-container' }) => {
   const [session, loading] = useSession()
@@ -104,9 +106,15 @@ const Professional = ({ id = 'modal-container' }) => {
             ) : (
               <Container>
                 <div className="header-profile">
-                  <h1>
-                    <FaUser size={28} /> Cadastro profissional
-                  </h1>
+                  <Link href="/profile">
+                    <h1>
+                      <FaUser size={28} /> Meu Perfil
+                    </h1>
+                  </Link>
+                  <h2>
+                    <RiArrowRightSLine size={28} />
+                    Cadastro Profissional
+                  </h2>
                 </div>
                 <div className="form-container">
                   <div className="form">
