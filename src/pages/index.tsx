@@ -251,7 +251,7 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
                           : user.description}
                       </span>
 
-                      <div className="description">
+                      <div className="specialties">
                         {user.especialidades &&
                           user.especialidades.map(item => (
                             <span key={item}>{item}</span>

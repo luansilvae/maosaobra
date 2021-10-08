@@ -342,11 +342,11 @@ export const UsersList = styled.div`
       }
     }
 
-    .description {
-      margin-top: 2rem;
+    .specialties {
       display: flex;
-      max-width: 100%;
+      align-items: center;
       flex-wrap: wrap;
+      margin-top: 1rem;
       gap: 1rem;
 
       span {
@@ -355,7 +355,12 @@ export const UsersList = styled.div`
         border-radius: 5px;
         font-size: 1.4rem;
         color: #1dbf73;
-        border: solid 1px #1dbf73;
+        border: solid 1.5px #1dbf73;
+        font-weight: 500;
+      }
+
+      @media (max-width: 720px) {
+        justify-content: center;
       }
     }
   }
