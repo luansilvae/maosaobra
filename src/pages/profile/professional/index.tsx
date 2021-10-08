@@ -270,7 +270,9 @@ const Professional = ({ id = 'modal-container' }) => {
                                 >
                                   Excluir perfil profissional
                                 </span>
-                              ) : null}
+                              ) : (
+                                <span></span>
+                              )}
 
                               <button type="submit" disabled={!isValid}>
                                 Salvar

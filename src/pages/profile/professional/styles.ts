@@ -92,10 +92,10 @@ const Container = styled.div`
 
         button {
           padding: 1rem 4rem;
-          background: #ffffff;
-          border: solid 1px ${props => props.theme.colors.primary};
-          color: ${props => props.theme.colors.primary};
+          background: ${props => props.theme.colors.primary};
+          color: #ffffff;
           font-weight: 500;
+          border: 0;
           border-radius: 5px;
           cursor: pointer;
 
@@ -103,14 +103,11 @@ const Container = styled.div`
 
           &:hover {
             background-color: #18a061;
-            color: #ffffff;
           }
 
           &:disabled {
             background: #d1d1d1;
-            color: #ffffff;
             cursor: default;
-            border: 0;
           }
 
           @media (max-width: 480px) {
