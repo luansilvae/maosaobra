@@ -66,7 +66,8 @@ export default NextAuth({
     jwt: true
   },
   pages: {
-    error: '/auth/error'
+    error: '/auth/error',
+    newUser: '/profile'
   },
   callbacks: {
     async redirect(url, baseUrl) {

@@ -1,28 +1,26 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import Head from 'next/head'
-import Router from 'next/router'
 import axios from 'axios'
 import * as Yup from 'yup'
 import { useSession } from 'next-auth/client'
 import { ToastContainer } from 'react-toastify'
-import { FaUser, FaFileAlt } from 'react-icons/fa'
-import { MdLocationOn, MdWork } from 'react-icons/md'
-import { TiWarning, TiWarningOutline } from 'react-icons/ti'
+import { FaUser, FaFileAlt, FaHandshake } from 'react-icons/fa'
+import { MdLocationOn } from 'react-icons/md'
+import { TiWarning } from 'react-icons/ti'
 
 import Loading from '../../components/Loading'
 import NotLoggedPage from '../../components/NotLoggedPage'
-import CustomSelect from '../../components/CustomSelect'
 import { useFetch } from '../../hooks/useFetch'
 import { notify } from '../../utils/notify'
-import { listaEspecialidades } from '../../utils/especialidades'
 import capitalizeString from '../../utils/capitalizeString'
-import { cepMask, cnpjMask, phoneMask } from '../../utils/masks'
+import { cepMask, phoneMask } from '../../utils/masks'
 
 import 'react-toastify/dist/ReactToastify.css'
 import Container, { InputGroup } from './styles'
+import Link from 'next/link'
 
-const Profile = ({ id = 'modal-container' }) => {
+const Profile = () => {
   const [session, loading] = useSession()
 
   const { data } = useFetch(`/api/user/${session?.user.email}`)
@@ -35,14 +33,6 @@ const Profile = ({ id = 'modal-container' }) => {
     neighborhood: '',
     state: '',
     cep: ''
-  })
-
-  const [professionalData, setProfessionalData] = useState({
-    especialidades: [],
-    description: '',
-    experience: '',
-    cnpj: '',
-    email: session?.user.email
   })
 
   const validateUser = Yup.object({
@@ -70,46 +60,6 @@ const Profile = ({ id = 'modal-container' }) => {
       .min(9, 'Formato inválido')
   })
 
-  const validateProfessional = Yup.object({
-    description: Yup.string()
-      .required('Por favor, descreva seus serviços.')
-      .max(250, 'Descrição deve ter no máximo 250 caracteres.'),
-    experience: Yup.number().required(
-      'Por favor, preencha seus anos de experiência.'
-    ),
-    cnpj: Yup.string()
-      .required('Por favor, preencha com seu CNPJ.')
-      .min(18, 'CNPJ precisa ter 18 caracteres.')
-      .max(18, 'CNPJ precisa ter 18 caracteres.'),
-    especialidades: Yup.array()
-      .min(1, 'Selecione pelo menos uma especialidade.')
-      .required('Por favor, selecione uma especialidade.')
-  })
-
-  const [modalIsOpen, setModalIsOpen] = useState(false)
-
-  const deleteProfessional = async () => {
-    const deletedProfessional = {
-      especialidades: [],
-      description: '',
-      experience: '',
-      cnpj: '',
-      email: session?.user.email
-    }
-
-    if (data.professional) {
-      setProfessionalData(deletedProfessional)
-
-      await axios.put(`/api/deleteProfessional`, deletedProfessional)
-
-      Router.reload()
-    }
-  }
-
-  const handleOutsideClick = (e: any) => {
-    if (e.target.id === id) setModalIsOpen(false)
-  }
-
   const handleInputMask = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       const { name } = e.currentTarget
@@ -120,10 +70,6 @@ const Profile = ({ id = 'modal-container' }) => {
 
       if (name === 'cep') {
         cepMask(e)
-      }
-
-      if (name === 'cnpj') {
-        cnpjMask(e)
       }
     },
     []
@@ -391,215 +337,49 @@ const Profile = ({ id = 'modal-container' }) => {
                   </Formik>
                 </div>
 
-                <div className="form">
-                  <Formik
-                    enableReinitialize={true}
-                    initialValues={professionalData}
-                    validationSchema={validateProfessional}
-                    onSubmit={values => {
-                      if (
-                        !data.phone ||
-                        !data.address.city ||
-                        !data.address.neighborhood ||
-                        !data.address.state
-                      ) {
-                        notify('Finalize os dados de usuário.', '#d83024')
-                      } else {
-                        notify('Cadastro profissional atualizado.', '#1dbf73')
-                        axios.put(`/api/professionals`, values)
-                      }
-                    }}
-                  >
-                    {formik => {
-                      const { errors, touched, isValid } = formik
-                      useEffect(() => {
-                        axios
-                          .get(`/api/user/${session?.user.email}`)
-                          .then(response => {
-                            const {
-                              description,
-                              experience,
-                              cnpj,
-                              especialidades
-                            } = response.data
-
-                            const initialValues = {
-                              especialidades: [],
-                              description: '',
-                              experience: '',
-                              cnpj: '',
-                              email: session?.user.email
-                            }
-
-                            if (!data.especialidades) {
-                              setProfessionalData(initialValues)
-                            } else {
-                              setProfessionalData({
-                                especialidades,
-                                description,
-                                experience,
-                                cnpj,
-                                email: session?.user.email
-                              })
-                            }
-                          })
-                      }, [session?.user.email])
-
-                      return (
-                        <Form>
-                          <h3>
-                            <MdWork size={20} /> Cadastro de profissional
-                          </h3>
-                          <InputGroup>
-                            <div
-                              className={
-                                errors.especialidades && touched.especialidades
-                                  ? 'error input'
-                                  : 'input'
-                              }
-                            >
-                              <label htmlFor="especialidades">
-                                Especialidades
-                              </label>
-
-                              <Field
-                                name="especialidades"
-                                className="custom-select"
-                                options={listaEspecialidades}
-                                component={CustomSelect}
-                                instanceId="especialidades"
-                                placeholder="Selecione suas especialidades"
-                                isMulti={true}
-                              />
-                              {errors.especialidades &&
-                              touched.especialidades ? (
-                                <div className="error-message">
-                                  <TiWarning size={21} />
-                                  {errors.especialidades}
-                                </div>
-                              ) : null}
-                            </div>
-
-                            <div
-                              className={
-                                errors.experience && touched.experience
-                                  ? 'error input'
-                                  : 'input'
-                              }
-                            >
-                              <label htmlFor="experience">
-                                Anos de experiência
-                              </label>
-                              <Field
-                                id="experience"
-                                name="experience"
-                                type="number"
-                                min="1"
-                                max="70"
-                              />
-                              {errors.experience && touched.experience ? (
-                                <div className="error-message">
-                                  <TiWarning size={21} />
-                                  {errors.experience}
-                                </div>
-                              ) : null}
-                            </div>
-
-                            <div
-                              className={
-                                errors.cnpj && touched.cnpj
-                                  ? 'error input'
-                                  : 'input'
-                              }
-                            >
-                              <label htmlFor="cnpj">CNPJ</label>
-                              <Field
-                                id="cnpj"
-                                name="cnpj"
-                                onKeyUp={handleInputMask}
-                              />
-
-                              {errors.cnpj && touched.cnpj ? (
-                                <div className="error-message">
-                                  <TiWarning size={21} />
-                                  {errors.cnpj}
-                                </div>
-                              ) : null}
-                            </div>
-
-                            <div
-                              className={
-                                errors.description && touched.description
-                                  ? 'error input'
-                                  : 'input'
-                              }
-                            >
-                              <label htmlFor="description">Descrição</label>
-                              <Field
-                                as="textarea"
-                                rows="3"
-                                id="description"
-                                name="description"
-                              />
-                              {errors.description && touched.description ? (
-                                <div className="error-message">
-                                  <TiWarning size={21} />
-                                  {errors.description}
-                                </div>
-                              ) : null}
-                            </div>
-
-                            {data.professional && (
-                              <span
-                                className="delete-button"
-                                onClick={() => setModalIsOpen(true)}
-                              >
-                                Excluir perfil profissional
-                              </span>
-                            )}
-                          </InputGroup>
-
-                          <div className="submit-professional">
-                            <button type="submit" disabled={!isValid}>
-                              Salvar
-                            </button>
-                          </div>
-                        </Form>
-                      )
-                    }}
-                  </Formik>
-                </div>
-              </div>
-
-              <div
-                className={modalIsOpen ? 'modal-container' : 'hidden-container'}
-                id={id}
-                onClick={handleOutsideClick}
-              >
-                <div className="modal">
-                  <div className="modal-content">
+                {!data.professional ? (
+                  <div className="professional-card">
+                    <FaHandshake size={90} />
                     <span>
-                      <TiWarningOutline size={25} />
+                      Se torne um parceiro e ofereça os seus serviços na
+                      plataforma.
                     </span>
-                    <div className="modal-text">
-                      <h3>Excluir perfil</h3>
-                      <p>
-                        Tem certeza que quer excluir seu perfil profissional?
-                      </p>
+
+                    {!data.phone ||
+                    !data.address.city ||
+                    !data.address.neighborhood ||
+                    !data.address.state ? (
+                      <button
+                        onClick={() =>
+                          notify('Finalize os dados de usuário.', '#d83024')
+                        }
+                      >
+                        Cadastro profissional
+                      </button>
+                    ) : (
+                      <Link href="/profile/professional">
+                        <button>Cadastro Profissional</button>
+                      </Link>
+                    )}
+                  </div>
+                ) : (
+                  <div className="professional-card">
+                    <span>
+                      Estes são os serviços que você presta atualmente.
+                    </span>
+
+                    <div className="specialties">
+                      {data.especialidades &&
+                        data.especialidades.map(item => (
+                          <span key={item}>{item}</span>
+                        ))}
                     </div>
+
+                    <Link href="/profile/professional">
+                      <button>Editar Cadastro</button>
+                    </Link>
                   </div>
-                  <div className="modal-actions">
-                    <button
-                      className="btn-cancel"
-                      onClick={() => setModalIsOpen(false)}
-                    >
-                      Cancelar
-                    </button>
-                    <button className="btn-delete" onClick={deleteProfessional}>
-                      Excluir
-                    </button>
-                  </div>
-                </div>
+                )}
               </div>
 
               <ToastContainer
