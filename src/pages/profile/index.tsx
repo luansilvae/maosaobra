@@ -20,12 +20,22 @@ import 'react-toastify/dist/ReactToastify.css'
 import Container, { InputGroup } from './styles'
 import Link from 'next/link'
 
+interface UserProps {
+  email: String
+  name: String
+  phone: String
+  city: String
+  neighborhood: String
+  state: String
+  cep: String | Boolean
+}
+
 const Profile = () => {
   const [session, loading] = useSession()
 
   const { data } = useFetch(`/api/user/${session?.user.email}`)
 
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<UserProps>({
     name: '',
     email: session?.user.email,
     phone: '',
@@ -140,6 +150,7 @@ const Profile = () => {
 
                               setUserData(userData => ({
                                 ...userData,
+                                phone: formik.values.phone,
                                 city: '',
                                 neighborhood: '',
                                 state: '',
@@ -149,6 +160,7 @@ const Profile = () => {
 
                             setUserData(userData => ({
                               ...userData,
+                              phone: formik.values.phone,
                               city: localidade,
                               neighborhood: bairro,
                               state: uf,
@@ -354,7 +366,7 @@ const Profile = () => {
                           notify('Finalize os dados de usuário.', '#d83024')
                         }
                       >
-                        Cadastro profissional
+                        Cadastro Profissional
                       </button>
                     ) : (
                       <Link href="/profile/professional">
