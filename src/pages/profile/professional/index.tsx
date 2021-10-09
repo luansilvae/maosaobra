@@ -40,14 +40,14 @@ const Professional = ({ id = 'modal-container' }) => {
   const validateProfessional = Yup.object({
     description: Yup.string()
       .required('Por favor, descreva seus serviços.')
-      .max(250, 'Descrição deve ter no máximo 250 caracteres.'),
+      .max(400, 'Descrição deve ter no máximo 400 caracteres.'),
     experience: Yup.number().required(
       'Por favor, preencha seus anos de experiência.'
     ),
     cnpj: Yup.string()
       .required('Por favor, preencha com seu CNPJ.')
-      .min(18, 'CNPJ precisa ter 18 caracteres.')
-      .max(18, 'CNPJ precisa ter 18 caracteres.'),
+      .min(18, 'Formato inválido de CNPJ.')
+      .max(18, 'Formato inválido de CNPJ.'),
     especialidades: Yup.array()
       .min(1, 'Selecione pelo menos uma especialidade.')
       .required('Por favor, selecione uma especialidade.')

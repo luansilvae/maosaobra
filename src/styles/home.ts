@@ -131,9 +131,22 @@ export const SearchContainer = styled.div`
     }
 
     @media (max-width: 1280px) {
-      text-align: center;
       h1 {
         font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      h1 {
+        color: ${props => props.theme.colors.title};
+        text-align: center;
+        width: 100%;
+        margin: 0.5rem auto 3rem auto;
+
+        @media (max-width: 400px) {
+          font-size: 2.3rem;
+        }
       }
     }
 
@@ -148,12 +161,13 @@ export const SearchContainer = styled.div`
       gap: 2rem;
 
       .input {
+        position: relative;
         input {
           border-radius: 5px;
-          border: 0.5px solid #d6d6d6;
-          background: #ffffff;
+          border: solid 0.5px #d6d6d6;
+          background-color: #ffffff;
           padding: 0.7rem 1rem;
-          font-size: 1.6rem;
+          font-size: 1.7rem;
           line-height: 2.4rem;
           outline: 0;
           color: ${props => props.theme.colors.title};
@@ -169,11 +183,17 @@ export const SearchContainer = styled.div`
           }
         }
 
-        position: relative;
+        @media (max-width: 480px) {
+          .custom-select,
+          input {
+            font-size: 1.8rem;
+          }
+        }
       }
 
       .custom-select {
         width: 30rem;
+        font-size: 1.7rem;
       }
 
       .error {
@@ -206,10 +226,10 @@ export const SearchContainer = styled.div`
         }
       }
 
-      @media (max-width: 660px) {
+      @media (max-width: 768px) {
         flex-direction: column;
-        max-width: 100vw;
-        padding: 2rem;
+        width: 100%;
+        padding: 3rem;
 
         .input {
           display: flex;
@@ -239,7 +259,7 @@ export const SearchContainer = styled.div`
         color: #ffffff;
         line-height: 2.4rem;
         font-weight: 500;
-        font-size: 1.6rem;
+        font-size: 1.7rem;
         cursor: pointer;
 
         @media (max-width: 480px) {
