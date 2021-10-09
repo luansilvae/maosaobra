@@ -51,9 +51,34 @@ const Container = styled.div`
     .specialties {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      margin-top: 1rem;
       gap: 1rem;
+      flex-wrap: wrap;
+
+      max-width: 55rem;
+      margin-top: 1rem;
+      max-height: 8rem;
+      overflow-y: auto;
+
+      ::-webkit-scrollbar {
+        width: 15px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #d1d1d1;
+        border-radius: 10px;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: ${props => props.theme.colors.primary};
+        border-radius: 10px;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #18a061;
+      }
 
       span {
         background: #edfff4;
