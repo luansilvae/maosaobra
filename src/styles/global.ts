@@ -9,6 +9,27 @@ export default createGlobalStyle`
 
   html { 
     font-size: 62.5%;
+
+    ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #d1d1d1;
+        border-radius: 10px;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: ${props => props.theme.colors.primary};
+        border-radius: 10px;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #18a061;
+      }
   }
 
   a {
