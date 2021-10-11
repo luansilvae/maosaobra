@@ -53,14 +53,14 @@ const Container = styled.div`
       align-items: center;
       gap: 1rem;
       flex-wrap: wrap;
-
       max-width: 55rem;
       margin-top: 1rem;
       max-height: 8rem;
+
       overflow-y: auto;
 
       ::-webkit-scrollbar {
-        width: 15px;
+        width: 4px;
       }
 
       /* Track */
@@ -88,6 +88,10 @@ const Container = styled.div`
         color: #1dbf73;
         border: solid 1.5px #1dbf73;
         font-weight: 500;
+
+        @media (max-width: 480px) {
+          font-size: 1.5rem;
+        }
       }
 
       @media (max-width: 720px) {

@@ -170,7 +170,7 @@ const Container = styled.div`
         overflow-y: auto;
 
         ::-webkit-scrollbar {
-          width: 15px;
+          width: 4px;
         }
 
         /* Track */
@@ -198,6 +198,10 @@ const Container = styled.div`
           color: #1dbf73;
           border: solid 1.5px #1dbf73;
           font-weight: 500;
+
+          @media (max-width: 480px) {
+            font-size: 1.5rem;
+          }
         }
 
         @media (max-width: 720px) {
@@ -223,7 +227,7 @@ export const InputGroup = styled.div`
       font-weight: 400;
       color: ${props => props.theme.colors.title};
       @media (max-width: 480px) {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
       }
     }
 

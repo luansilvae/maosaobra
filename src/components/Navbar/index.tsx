@@ -91,7 +91,7 @@ const RightSection = styled.div`
         0px 4px 16px rgba(0, 0, 0, 0.06);
 
       @media (max-width: 480px) {
-        width: calc(100vw - 2rem);
+        width: 70vw;
       }
 
       a {

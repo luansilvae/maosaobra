@@ -286,7 +286,7 @@ export const InputGroup = styled.div`
       font-weight: 400;
       color: ${props => props.theme.colors.title};
       @media (max-width: 480px) {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
       }
     }
 
@@ -330,6 +330,7 @@ export const InputGroup = styled.div`
       > div {
         border-color: #e72626;
         .css-1wa3eu0-placeholder {
+          font-size: 1.7rem;
           color: #e72626;
         }
       }

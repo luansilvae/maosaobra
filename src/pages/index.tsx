@@ -224,40 +224,42 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
               <UsersList>
                 {users.map(user => {
                   return (
-                    <div className="card-user" key={user._id}>
-                      <div className="user-data-content">
-                        <Image
-                          width={360}
-                          height={360}
-                          alt="User Avatar"
-                          src={user.image}
-                        />
+                    <Link href={`/professional/${user._id}`}>
+                      <div className="card-user" key={user._id}>
+                        <div className="user-data-content">
+                          <Image
+                            width={360}
+                            height={360}
+                            alt="User Avatar"
+                            src={user.image}
+                          />
 
-                        <div className="user-info">
-                          <Link href={`/professional/${user._id}`}>
-                            <h1>{capitalizeString(user.name)}</h1>
-                          </Link>
+                          <div className="user-info">
+                            <Link href={`/professional/${user._id}`}>
+                              <h1>{capitalizeString(user.name)}</h1>
+                            </Link>
 
-                          <span>
-                            <RiMapPinLine size={22} /> {user.address.city} -{' '}
-                            {user.address.state}
-                          </span>
+                            <span>
+                              <RiMapPinLine size={22} /> {user.address.city} -{' '}
+                              {user.address.state}
+                            </span>
+                          </div>
+                        </div>
+
+                        <span>
+                          {user.description.length > 100
+                            ? user.description.substring(0, 100) + '...'
+                            : user.description}
+                        </span>
+
+                        <div className="specialties">
+                          {user.especialidades &&
+                            user.especialidades.map(item => (
+                              <span key={item}>{item}</span>
+                            ))}
                         </div>
                       </div>
-
-                      <span>
-                        {user.description.length > 100
-                          ? user.description.substring(0, 100) + '...'
-                          : user.description}
-                      </span>
-
-                      <div className="specialties">
-                        {user.especialidades &&
-                          user.especialidades.map(item => (
-                            <span key={item}>{item}</span>
-                          ))}
-                      </div>
-                    </div>
+                    </Link>
                   )
                 })}
               </UsersList>

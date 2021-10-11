@@ -301,12 +301,16 @@ export const UsersList = styled.div`
     border-radius: 5px;
     border: 0.5px solid #ececec;
     padding: 3rem;
-
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
+    transition: border-color 200ms;
     overflow: hidden;
+
+    &:hover {
+      border-color: ${props => props.theme.colors.primary};
+    }
 
     > span {
       color: ${props => props.theme.colors.text};
@@ -326,6 +330,7 @@ export const UsersList = styled.div`
         border: 3px solid #ffffff;
         width: 80px;
         height: 80px;
+        cursor: pointer;
 
         @media (max-width: 420px) {
           width: 50px;
@@ -370,16 +375,10 @@ export const UsersList = styled.div`
       gap: 1rem;
       max-height: 8rem;
 
-      overflow: hidden;
-
-      transition: overflow-y 1s;
-
-      &:hover {
-        overflow-y: auto;
-      }
+      overflow-y: auto;
 
       ::-webkit-scrollbar {
-        width: 15px;
+        width: 4px;
       }
 
       /* Track */
@@ -407,6 +406,10 @@ export const UsersList = styled.div`
         color: #1dbf73;
         border: solid 1.5px #1dbf73;
         font-weight: 500;
+
+        @media (max-width: 480px) {
+          font-size: 1.5rem;
+        }
       }
 
       @media (max-width: 720px) {
