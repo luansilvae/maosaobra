@@ -154,7 +154,7 @@ const Profile = () => {
                                 city: '',
                                 neighborhood: '',
                                 state: '',
-                                cep
+                                cep: formik.values.cep
                               }))
                             }
 

@@ -19,6 +19,7 @@ import { parseISO, format, formatDistance } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
 import Container from './styles'
+import NotLoggedPage from '../../components/NotLoggedPage'
 
 interface User {
   _id: string
@@ -69,125 +70,133 @@ export default function Professional({ user }) {
 
   return (
     <Container>
-      <Head>
-        <title>Mãos à Obra | {professional.name}</title>
-      </Head>
+      {session ? (
+        <>
+          <Head>
+            <title>Mãos à Obra | {professional.name}</title>
+          </Head>
 
-      <div className="user-content">
-        <div className="user-info">
-          <Image
-            width={350}
-            height={350}
-            alt="User Avatar"
-            src={professional.image}
-          />
+          <div className="user-content">
+            <div className="user-info">
+              <Image
+                width={350}
+                height={350}
+                alt="User Avatar"
+                src={professional.image}
+              />
 
-          <div className="user-info-data">
-            <h1>{professional.name}</h1>
+              <div className="user-info-data">
+                <h1>{professional.name}</h1>
 
-            <div className="specialties">
-              {professional.especialidades &&
-                professional.especialidades.map(item => (
-                  <span key={item}>{item}</span>
-                ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="user-location">
-          <span>
-            <RiMapPinLine size={25} />
-            {professional.address.neighborhood}, {professional.address.city} -{' '}
-            {professional.address.state}
-          </span>
-
-          {data && data._id === professional._id && (
-            <div className="edit-profile">
-              <Link href="/profile">
-                <a>
-                  <BiEditAlt size={25} />
-                  Editar Perfil
-                </a>
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="card-container">
-        <div className="about-container">
-          <div className="card">
-            <h2>Sobre</h2>
-            <p>{professional.description}</p>
-          </div>
-
-          <div className="card">
-            <h2>Experiência</h2>
-            <p>
-              {professional.experience > 1
-                ? `${professional.experience} anos`
-                : `${professional.experience} ano`}
-            </p>
-          </div>
-        </div>
-
-        <div className="card-infos">
-          <h2>Informações Adicionais</h2>
-
-          <div className="card-item-container">
-            <div className="card-item">
-              <span>
-                <HiOutlineMail size={25} />
-                EMAIL
-              </span>
-
-              <a href={`mailto:${professional.email}`} target="_blank">
-                {professional.email}
-              </a>
-            </div>
-
-            <div className="card-item">
-              <div className="phone-info">
-                <span>
-                  <RiPhoneFill size={25} />
-                  TELEFONE
-                </span>
-
-                <a href={`tel:${professional.phone}`}>{professional.phone}</a>
-              </div>
-
-              <div className="whatsapp-button">
-                <a
-                  href={`https://wa.me/+55${formatedPhone}?text=Olá ${professional.name}! Encontrei seu perfil no site Mãos à Obra e gostaria de ter mais informações sobre seus serviços.`}
-                  target="_blank"
-                >
-                  <RiWhatsappFill size={30} />
-                </a>
+                <div className="specialties">
+                  {professional.especialidades &&
+                    professional.especialidades.map(item => (
+                      <span key={item}>{item}</span>
+                    ))}
+                </div>
               </div>
             </div>
 
-            <div className="card-item">
+            <div className="user-location">
               <span>
-                <BiCalendar size={25} />
-                JUNTOU-SE
+                <RiMapPinLine size={25} />
+                {professional.address.neighborhood}, {professional.address.city}{' '}
+                - {professional.address.state}
               </span>
 
-              <p>
-                Há {dateDistance}, em {joinDate}
-              </p>
-            </div>
-
-            <div className="card-item">
-              <span>
-                <RiShieldUserLine size={25} />
-                CNPJ
-              </span>
-
-              <p>{professional.cnpj}</p>
+              {data && data._id === professional._id && (
+                <div className="edit-profile">
+                  <Link href="/profile">
+                    <a>
+                      <BiEditAlt size={25} />
+                      Editar Perfil
+                    </a>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      </div>
+
+          <div className="card-container">
+            <div className="about-container">
+              <div className="card">
+                <h2>Sobre</h2>
+                <p>{professional.description}</p>
+              </div>
+
+              <div className="card">
+                <h2>Experiência</h2>
+                <p>
+                  {professional.experience > 1
+                    ? `${professional.experience} anos`
+                    : `${professional.experience} ano`}
+                </p>
+              </div>
+            </div>
+
+            <div className="card-infos">
+              <h2>Informações Adicionais</h2>
+
+              <div className="card-item-container">
+                <div className="card-item">
+                  <span>
+                    <HiOutlineMail size={25} />
+                    EMAIL
+                  </span>
+
+                  <a href={`mailto:${professional.email}`} target="_blank">
+                    {professional.email}
+                  </a>
+                </div>
+
+                <div className="card-item">
+                  <div className="phone-info">
+                    <span>
+                      <RiPhoneFill size={25} />
+                      TELEFONE
+                    </span>
+
+                    <a href={`tel:${professional.phone}`}>
+                      {professional.phone}
+                    </a>
+                  </div>
+
+                  <div className="whatsapp-button">
+                    <a
+                      href={`https://wa.me/+55${formatedPhone}?text=Olá ${professional.name}! Encontrei seu perfil no site Mãos à Obra e gostaria de ter mais informações sobre seus serviços.`}
+                      target="_blank"
+                    >
+                      <RiWhatsappFill size={30} />
+                    </a>
+                  </div>
+                </div>
+
+                <div className="card-item">
+                  <span>
+                    <BiCalendar size={25} />
+                    JUNTOU-SE
+                  </span>
+
+                  <p>
+                    Há {dateDistance}, em {joinDate}
+                  </p>
+                </div>
+
+                <div className="card-item">
+                  <span>
+                    <RiShieldUserLine size={25} />
+                    CNPJ
+                  </span>
+
+                  <p>{professional.cnpj}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <NotLoggedPage />
+      )}
     </Container>
   )
 }
