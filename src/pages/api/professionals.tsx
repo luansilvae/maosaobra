@@ -40,7 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .find({
             professional: true,
             especialidades: capitalizeString(especialidade),
-            'address.city': capitalizeString(city)
+            'address.city': { $regex: `^${city}`, $options: 'i' }
           })
           .skip((page - 1) * perPage)
           .limit(perPage)
@@ -51,7 +51,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .find({
             professional: true,
             especialidades: especialidade,
-            'address.city': capitalizeString(city)
+            'address.city': { $regex: `^${city}`, $options: 'i' }
           })
           .count()
       } else {
