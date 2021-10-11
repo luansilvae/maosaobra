@@ -5,6 +5,7 @@ import { signOut, useSession } from 'next-auth/client'
 import { useFetch } from '../../hooks/useFetch'
 import capitalizeString from '../../utils/capitalizeString'
 import LoadingHeaderActions from '../Shimmer/LoadingHeaderActions'
+import { moveDown } from '../../styles/animations'
 
 const NavbarContainer = styled.div`
   margin: 0 auto;
@@ -20,7 +21,7 @@ const NavbarContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-    padding: 1.8rem 1.5rem;
+    padding: 1.8rem 1rem;
   }
 `
 
@@ -75,8 +76,10 @@ const RightSection = styled.div`
       display: flex;
       flex-direction: column;
 
+      animation: ${moveDown} 500ms;
+
       position: absolute;
-      top: 40px;
+      top: 50px;
       z-index: 30;
       width: 18rem;
       right: 0;
@@ -87,18 +90,59 @@ const RightSection = styled.div`
       box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05),
         0px 4px 16px rgba(0, 0, 0, 0.06);
 
+      @media (max-width: 480px) {
+        width: calc(100vw - 2rem);
+      }
+
       a {
-        margin-left: auto;
         cursor: pointer;
-        padding: 1rem;
+        padding: 1rem 2rem 1rem;
         font-weight: 500;
         color: ${props => props.theme.colors.title};
+        border-right: 2px solid transparent;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px 0 0 5px;
 
-        transition: color 200ms;
+        transition: all 200ms;
+        transition: border-right 200ms ease-in;
 
         :hover {
           color: ${props => props.theme.colors.primary};
+          border-right: 2px solid ${props => props.theme.colors.primary};
+          background: #f1f1f196;
         }
+
+        @media (max-width: 480px) {
+          font-size: 2rem;
+        }
+      }
+
+      &::after {
+        position: absolute;
+        content: '';
+        width: 0;
+        height: 0;
+        top: -10px;
+        right: 8px;
+        border-left: 9px solid transparent;
+        border-right: 9px solid transparent;
+        border-bottom: 9px solid #eeeeee;
+      }
+
+      &::before {
+        position: absolute;
+        content: '';
+        width: 0;
+        height: 0;
+        top: -8.5px;
+        right: 8px;
+        z-index: 200;
+        border-left: 9px solid transparent;
+        border-right: 9px solid transparent;
+        border-bottom: 9px solid #ffffff;
       }
     }
 
