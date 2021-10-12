@@ -102,10 +102,18 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
                   setCity(capitalizeString(city.trim()))
                   setEspecialidade(especialidade)
 
+                  const searchEspecialidade = especialidade
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+
+                  const searchCity = capitalizeString(city.trim())
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+
                   Router.push(
                     city
-                      ? `?city=${city}&especialidade=${especialidade}`
-                      : `?especialidade=${especialidade}`
+                      ? `?city=${searchCity}&especialidade=${searchEspecialidade}`
+                      : `?especialidade=${searchEspecialidade}`
                   )
                 }}
               >

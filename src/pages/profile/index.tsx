@@ -118,7 +118,10 @@ const Profile = () => {
                           city: values.city,
                           neighborhood: values.neighborhood,
                           state: values.state,
-                          cep: values.cep
+                          cep: values.cep,
+                          citySearchable: values.city
+                            .normalize('NFD')
+                            .replace(/[\u0300-\u036f]/g, '')
                         }
                       })
                     }}

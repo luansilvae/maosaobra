@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import capitalizeString from '../../utils/capitalizeString'
 import { connect } from '../../utils/database'
 
 interface User {
@@ -17,6 +16,7 @@ interface User {
   cnpj: string
   description: string
   especialidades: string[]
+  especialidadesSearchable: string[]
   experience: number
 }
 
@@ -39,8 +39,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .collection('users')
           .find({
             professional: true,
-            especialidades: capitalizeString(especialidade),
-            'address.city': { $regex: `^${city}`, $options: 'i' }
+            especialidadesSearchable: especialidade,
+            'address.citySearchable': { $regex: `^${city}`, $options: 'i' }
           })
           .skip((page - 1) * perPage)
           .limit(perPage)
@@ -50,8 +50,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .collection('users')
           .find({
             professional: true,
-            especialidades: especialidade,
-            'address.city': { $regex: `^${city}`, $options: 'i' }
+            especialidadesSearchable: especialidade,
+            'address.citySearchable': { $regex: `^${city}`, $options: 'i' }
           })
           .count()
       } else {
@@ -59,7 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .collection('users')
           .find({
             professional: true,
-            especialidades: capitalizeString(especialidade)
+            especialidadesSearchable: especialidade
           })
           .skip((page - 1) * perPage)
           .limit(perPage)
@@ -69,7 +69,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .collection('users')
           .find({
             professional: true,
-            especialidades: especialidade
+            especialidadesSearchable: especialidade
           })
           .count()
       }
@@ -86,19 +86,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method === 'PUT') {
-    const { description, experience, cnpj, email, especialidades }: User =
-      req.body
+    const {
+      description,
+      experience,
+      cnpj,
+      email,
+      especialidades,
+      especialidadesSearchable
+    }: User = req.body
     const { db } = await connect()
 
     await db.collection('users').updateOne(
       { email: email },
       {
         $set: {
-          description,
-          experience,
-          cnpj,
           professional: true,
-          especialidades
+          especialidades,
+          description,
+          cnpj,
+          experience,
+          especialidadesSearchable
         }
       }
     )

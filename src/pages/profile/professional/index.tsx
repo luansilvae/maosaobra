@@ -123,8 +123,35 @@ const Professional = ({ id = 'modal-container' }) => {
                       initialValues={professionalData}
                       validationSchema={validateProfessional}
                       onSubmit={values => {
+                        const {
+                          cnpj,
+                          description,
+                          email,
+                          especialidades,
+                          experience
+                        } = values
+
+                        const especialidadesSearchable = []
+
+                        values.especialidades.forEach(item => {
+                          especialidadesSearchable.push(
+                            item
+                              .normalize('NFD')
+                              .replace(/[\u0300-\u036f]/g, '')
+                          )
+                        })
+
+                        const data = {
+                          cnpj,
+                          description,
+                          email,
+                          especialidades,
+                          experience,
+                          especialidadesSearchable
+                        }
+
                         notify('Cadastro profissional atualizado.', '#1dbf73')
-                        axios.put(`/api/professionals`, values)
+                        axios.put(`/api/professionals`, data)
                       }}
                     >
                       {formik => {
