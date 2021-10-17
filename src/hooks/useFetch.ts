@@ -1,5 +1,4 @@
 import useSWR from 'swr'
-
 interface User {
   _id: string
   name: string
@@ -9,6 +8,7 @@ interface User {
   cnpj: string
   description: string
   especialidades: string[]
+  favorites: string[]
   experience: number
   professional: boolean
   address: {

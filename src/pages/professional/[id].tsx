@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { HiOutlineMail } from 'react-icons/hi'
 import { BiEditAlt, BiCalendar } from 'react-icons/bi'
+import { IoHeart, IoHeartDislike } from 'react-icons/io5'
 import {
   RiMapPinLine,
   RiPhoneFill,
@@ -20,6 +21,7 @@ import { ptBR } from 'date-fns/locale'
 
 import Container from './styles'
 import NotLoggedPage from '../../components/NotLoggedPage'
+import axios from 'axios'
 
 interface User {
   _id: string
@@ -45,6 +47,17 @@ export default function Professional({ user }) {
   const [session] = useSession()
 
   const { data } = useFetch(`/api/user/${session?.user.email}`)
+
+  const handleFavorites = async (professionalId: string, userId: string) => {
+    axios.put(`/api/favorite`, { professionalId, userId })
+  }
+
+  const handleRemoveFavorites = async (
+    professionalId: string,
+    userId: string
+  ) => {
+    axios.put(`/api/deleteFavorite`, { userId, professionalId })
+  }
 
   const joinDate = format(
     parseISO(professional.createdAt.toString()),
@@ -104,7 +117,7 @@ export default function Professional({ user }) {
                 - {professional.address.state}
               </span>
 
-              {data && data._id === professional._id && (
+              {data && data._id === professional._id ? (
                 <div className="edit-profile">
                   <Link href="/profile">
                     <a>
@@ -112,6 +125,42 @@ export default function Professional({ user }) {
                       Editar Perfil
                     </a>
                   </Link>
+                </div>
+              ) : (
+                <div className="favorites">
+                  {data?.favorites ? (
+                    data.favorites.includes(professional._id) === true ? (
+                      <button
+                        className="remove"
+                        onClick={() =>
+                          handleRemoveFavorites(professional._id, data._id)
+                        }
+                      >
+                        <IoHeartDislike size={23} />
+                        Remover dos favoritos
+                      </button>
+                    ) : (
+                      <button
+                        className="add"
+                        onClick={() =>
+                          handleFavorites(professional._id, data._id)
+                        }
+                      >
+                        <IoHeart size={23} />
+                        Adicionar aos favoritos
+                      </button>
+                    )
+                  ) : (
+                    <button
+                      className="add"
+                      onClick={() =>
+                        handleFavorites(professional._id, data._id)
+                      }
+                    >
+                      <IoHeart size={23} />
+                      Adicionar aos favoritos
+                    </button>
+                  )}
                 </div>
               )}
             </div>

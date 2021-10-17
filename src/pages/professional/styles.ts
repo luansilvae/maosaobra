@@ -104,6 +104,7 @@ const Container = styled.div`
       flex-direction: column;
       gap: 1rem;
       align-items: center;
+      justify-content: flex-end;
 
       span {
         font-size: 1.6rem;
@@ -120,14 +121,22 @@ const Container = styled.div`
       }
 
       .edit-profile {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        @media (max-width: 950px) {
+          justify-content: center;
+        }
+
         a {
-          padding: 0.6rem;
+          padding: 0.6rem 1.5rem;
           background-color: #ffffff;
           border: solid 1px #d6d6d6;
           font-weight: 500;
           border-radius: 5px;
           font-size: 1.6rem;
-          margin-top: 1rem;
 
           display: flex;
           justify-content: center;
@@ -141,6 +150,52 @@ const Container = styled.div`
 
           &:hover {
             border-color: ${props => props.theme.colors.primary};
+          }
+        }
+      }
+
+      .favorites {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        @media (max-width: 950px) {
+          justify-content: center;
+        }
+
+        button {
+          cursor: pointer;
+          padding: 0.6rem 1.5rem;
+          border: solid 1px transparent;
+          font-weight: 500;
+          border-radius: 5px;
+          font-size: 1.6rem;
+          color: #ffffff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition: all 200ms ease-in;
+
+          svg {
+            color: #ffffff;
+            margin-right: 0.6rem;
+          }
+        }
+
+        .remove {
+          background-color: #ff4141;
+
+          &:hover {
+            background-color: #ec2a2a;
+          }
+        }
+
+        .add {
+          background-color: ${props => props.theme.colors.primary};
+
+          &:hover {
+            background-color: #18a061;
           }
         }
       }
