@@ -1,6 +1,7 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react'
 import { Formik, Form, Field } from 'formik'
 import Head from 'next/head'
+import Image from 'next/image'
 import axios from 'axios'
 import * as Yup from 'yup'
 import { useSession } from 'next-auth/client'
@@ -8,6 +9,7 @@ import { ToastContainer } from 'react-toastify'
 import { FaUser, FaFileAlt, FaHandshake } from 'react-icons/fa'
 import { MdLocationOn } from 'react-icons/md'
 import { TiWarning } from 'react-icons/ti'
+import { BiLinkExternal } from 'react-icons/bi'
 
 import Loading from '../../components/Loading'
 import NotLoggedPage from '../../components/NotLoggedPage'
@@ -352,49 +354,80 @@ const Profile = () => {
                   </Formik>
                 </div>
 
-                {!data.professional ? (
-                  <div className="professional-card">
-                    <FaHandshake size={90} />
-                    <span>
-                      Se torne um parceiro e ofereça os seus serviços na
-                      plataforma.
-                    </span>
+                <div className="cards-container">
+                  {!data.professional ? (
+                    <div className="card professional-card">
+                      <FaHandshake size={90} />
+                      <span>
+                        Se torne um parceiro e ofereça os seus serviços na
+                        plataforma.
+                      </span>
 
-                    {!data.phone ||
-                    !data.address.city ||
-                    !data.address.neighborhood ||
-                    !data.address.state ? (
-                      <button
-                        onClick={() =>
-                          notify('Finalize os dados de usuário.', '#d83024')
-                        }
-                      >
-                        Cadastro Profissional
-                      </button>
-                    ) : (
-                      <Link href="/profile/professional">
-                        <button>Cadastro Profissional</button>
-                      </Link>
-                    )}
-                  </div>
-                ) : (
-                  <div className="professional-card">
-                    <span>
-                      Estes são os serviços que você presta atualmente.
-                    </span>
-
-                    <div className="specialties">
-                      {data.especialidades &&
-                        data.especialidades.map(item => (
-                          <span key={item}>{item}</span>
-                        ))}
+                      {!data.phone ||
+                      !data.address.city ||
+                      !data.address.neighborhood ||
+                      !data.address.state ? (
+                        <button
+                          onClick={() =>
+                            notify('Finalize os dados de usuário.', '#d83024')
+                          }
+                        >
+                          Cadastro Profissional
+                        </button>
+                      ) : (
+                        <Link href="/profile/professional">
+                          <button>Cadastro Profissional</button>
+                        </Link>
+                      )}
                     </div>
+                  ) : (
+                    <div className="card professional-card">
+                      <span>
+                        Estes são os serviços que você presta atualmente.
+                      </span>
 
-                    <Link href="/profile/professional">
-                      <button>Editar Cadastro</button>
-                    </Link>
-                  </div>
-                )}
+                      <div className="specialties">
+                        {data.especialidades &&
+                          data.especialidades.map(item => (
+                            <span key={item}>{item}</span>
+                          ))}
+                      </div>
+
+                      <Link href="/profile/professional">
+                        <button>Editar Cadastro</button>
+                      </Link>
+                    </div>
+                  )}
+
+                  {data.favorites?.length > 0 && (
+                    <div className="card favorites-card">
+                      <h3>Seus profissionais favoritos</h3>
+                      <div className="favorites-content">
+                        <ul>
+                          {data.favorites?.map(favorite => (
+                            <Link
+                              href={`/professional/${favorite.professionalId}`}
+                            >
+                              <li>
+                                <div className="favorite-info">
+                                  <Image
+                                    src={favorite.professionalImage}
+                                    width={360}
+                                    height={360}
+                                    alt="User Avatar"
+                                  />
+
+                                  <span>{favorite.professionalName}</span>
+                                </div>
+                                <BiLinkExternal size={23} />
+                              </li>
+                            </Link>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <ToastContainer

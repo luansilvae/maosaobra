@@ -26,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const { db } = await connect()
 
-    await db.collection('users').findOneAndUpdate(
+    await db.collection('users').updateOne(
       { _id: new ObjectId(userId + '') },
       {
         $push: {

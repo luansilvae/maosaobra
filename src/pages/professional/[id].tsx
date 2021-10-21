@@ -1,5 +1,6 @@
 import { ObjectId } from 'bson'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { mutate as mutateGlobal } from 'swr'
 import { useSession } from 'next-auth/client'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -70,6 +71,7 @@ export default function Professional({ user }) {
         favorites: [{ professionalId, professionalName, professionalImage }]
       }
 
+      mutateGlobal(`/api/user/${session?.user.email}`, updatedUser)
       mutate(updatedUser, false)
     },
     [data, mutate]
@@ -84,7 +86,8 @@ export default function Professional({ user }) {
         favorites: [{}]
       }
 
-      mutate(updatedUser, false)
+      mutate(updatedUser, true)
+      mutateGlobal(`/api/user/${session?.user.email}`, data)
     },
 
     [data, mutate]
