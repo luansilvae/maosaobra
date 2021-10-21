@@ -1,4 +1,10 @@
 import useSWR from 'swr'
+
+interface Favorites {
+  professionalId?: string
+  professionalName?: string
+  professionalImage?: string
+}
 interface User {
   _id: string
   name: string
@@ -8,7 +14,7 @@ interface User {
   cnpj: string
   description: string
   especialidades: string[]
-  favorites: string[]
+  favorites: Favorites[]
   experience: number
   professional: boolean
   address: {
@@ -20,16 +26,12 @@ interface User {
 }
 
 export function useFetch(url: string) {
-  const { data, error } = useSWR(
-    url,
-    async url => {
-      const response = await fetch(url)
-      const data: User = await response.json()
+  const { data, error, mutate } = useSWR(url, async url => {
+    const response = await fetch(url)
+    const data: User = await response.json()
 
-      return data
-    },
-    { refreshInterval: 2000 }
-  )
+    return data
+  })
 
-  return { data, error }
+  return { data, error, mutate }
 }

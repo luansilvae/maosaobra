@@ -13,11 +13,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const { db } = await connect()
 
-    await db.collection('users').updateOne(
+    await db.collection('users').update(
       { _id: new ObjectId(userId + '') },
       {
         $pull: {
-          favorites: professionalId
+          favorites: {
+            professionalId: new ObjectId(professionalId + '')
+          }
         }
       }
     )

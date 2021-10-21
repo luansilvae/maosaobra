@@ -4,12 +4,25 @@ import { connect } from '../../utils/database'
 
 interface User {
   professionalId: string
+  professionalName: string
+  professionalImage: string
   userId: string
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'PUT') {
-    const { professionalId, userId }: User = req.body
+    const {
+      professionalId,
+      professionalName,
+      professionalImage,
+      userId
+    }: User = req.body
+
+    const favoriteData = {
+      professionalId: new ObjectId(professionalId + ''),
+      professionalName,
+      professionalImage
+    }
 
     const { db } = await connect()
 
@@ -17,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       { _id: new ObjectId(userId + '') },
       {
         $push: {
-          favorites: professionalId
+          favorites: favoriteData
         }
       }
     )

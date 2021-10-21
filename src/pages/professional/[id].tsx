@@ -22,6 +22,7 @@ import { ptBR } from 'date-fns/locale'
 import Container from './styles'
 import NotLoggedPage from '../../components/NotLoggedPage'
 import axios from 'axios'
+import { useCallback } from 'react'
 
 interface User {
   _id: string
@@ -46,18 +47,48 @@ export default function Professional({ user }) {
 
   const [session] = useSession()
 
-  const { data } = useFetch(`/api/user/${session?.user.email}`)
+  const { data, mutate } = useFetch(`/api/user/${session?.user.email}`)
 
-  const handleFavorites = async (professionalId: string, userId: string) => {
-    axios.put(`/api/favorite`, { professionalId, userId })
-  }
+  const handleFavorites = useCallback(
+    (
+      professionalId: string,
+      professionalName: string,
+      professionalImage: string,
+      userId: string
+    ) => {
+      const favoriteData = {
+        professionalId,
+        professionalName,
+        professionalImage,
+        userId
+      }
 
-  const handleRemoveFavorites = async (
-    professionalId: string,
-    userId: string
-  ) => {
-    axios.put(`/api/deleteFavorite`, { userId, professionalId })
-  }
+      axios.put(`/api/favorite`, favoriteData)
+
+      const updatedUser = {
+        ...data,
+        favorites: [{ professionalId, professionalName, professionalImage }]
+      }
+
+      mutate(updatedUser, false)
+    },
+    [data, mutate]
+  )
+
+  const handleRemoveFavorites = useCallback(
+    (professionalId: string, userId: string) => {
+      axios.put(`/api/deleteFavorite`, { userId, professionalId })
+
+      const updatedUser = {
+        ...data,
+        favorites: [{}]
+      }
+
+      mutate(updatedUser, false)
+    },
+
+    [data, mutate]
+  )
 
   const joinDate = format(
     parseISO(professional.createdAt.toString()),
@@ -129,7 +160,9 @@ export default function Professional({ user }) {
               ) : (
                 <div className="favorites">
                   {data?.favorites ? (
-                    data.favorites.includes(professional._id) === true ? (
+                    data.favorites.some(
+                      (item: any) => item.professionalId === professional._id
+                    ) ? (
                       <button
                         className="remove"
                         onClick={() =>
@@ -143,7 +176,12 @@ export default function Professional({ user }) {
                       <button
                         className="add"
                         onClick={() =>
-                          handleFavorites(professional._id, data._id)
+                          handleFavorites(
+                            professional._id,
+                            professional.name,
+                            professional.image,
+                            data._id
+                          )
                         }
                       >
                         <IoHeart size={23} />
@@ -154,7 +192,12 @@ export default function Professional({ user }) {
                     <button
                       className="add"
                       onClick={() =>
-                        handleFavorites(professional._id, data._id)
+                        handleFavorites(
+                          professional._id,
+                          professional.name,
+                          professional.image,
+                          data._id
+                        )
                       }
                     >
                       <IoHeart size={23} />
