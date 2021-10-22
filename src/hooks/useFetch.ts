@@ -5,7 +5,7 @@ interface Favorites {
   professionalName?: string
   professionalImage?: string
 }
-interface User {
+export interface User {
   _id: string
   name: string
   email: string
@@ -22,11 +22,12 @@ interface User {
     neighborhood: string
     city: string
     cep: string
+    citySearchable: string
   }
 }
 
 export function useFetch(url: string) {
-  const { data, error, mutate } = useSWR(url, async url => {
+  const { data, error, mutate } = useSWR<User>(url, async url => {
     const response = await fetch(url)
     const data: User = await response.json()
 

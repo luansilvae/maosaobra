@@ -1,5 +1,6 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react'
 import { Formik, Form, Field } from 'formik'
+import { mutate as mutateGlobal } from 'swr'
 import Head from 'next/head'
 import Image from 'next/image'
 import axios from 'axios'
@@ -13,7 +14,7 @@ import { BiLinkExternal } from 'react-icons/bi'
 
 import Loading from '../../components/Loading'
 import NotLoggedPage from '../../components/NotLoggedPage'
-import { useFetch } from '../../hooks/useFetch'
+import { useFetch, User } from '../../hooks/useFetch'
 import { notify } from '../../utils/notify'
 import capitalizeString from '../../utils/capitalizeString'
 import { cepMask, phoneMask } from '../../utils/masks'
@@ -23,19 +24,19 @@ import Container, { InputGroup } from './styles'
 import Link from 'next/link'
 
 interface UserProps {
-  email: String
-  name: String
-  phone: String
-  city: String
-  neighborhood: String
-  state: String
-  cep: String | Boolean
+  email: string
+  name: string
+  phone: string
+  city: string
+  neighborhood: string
+  state: string
+  cep: string | boolean
 }
 
 const Profile = () => {
   const [session, loading] = useSession()
 
-  const { data } = useFetch(`/api/user/${session?.user.email}`)
+  const { data, mutate } = useFetch(`/api/user/${session?.user.email}`)
 
   const [userData, setUserData] = useState<UserProps>({
     name: '',
@@ -111,8 +112,7 @@ const Profile = () => {
                     initialValues={userData}
                     validationSchema={validateUser}
                     onSubmit={values => {
-                      notify('Dados de usuários atualizados', '#1dbf73')
-                      axios.put(`/api/user`, {
+                      const updateUser = {
                         name: values.name,
                         email: values.email,
                         phone: values.phone,
@@ -125,7 +125,33 @@ const Profile = () => {
                             .normalize('NFD')
                             .replace(/[\u0300-\u036f]/g, '')
                         }
-                      })
+                      }
+
+                      const updatedData: User = {
+                        ...data,
+                        name: values.name,
+                        email: values.email,
+                        phone: values.phone,
+                        address: {
+                          city: values.city,
+                          neighborhood: values.neighborhood,
+                          state: values.state,
+                          cep: String(values.cep),
+                          citySearchable: values.city
+                            .normalize('NFD')
+                            .replace(/[\u0300-\u036f]/g, '')
+                        }
+                      }
+
+                      axios.put(`/api/user`, updateUser)
+
+                      mutateGlobal(
+                        `/api/user/${session?.user.email}`,
+                        updatedData
+                      )
+                      mutate(updatedData, false)
+
+                      notify('Dados de usuários atualizados', '#1dbf73')
                     }}
                   >
                     {formik => {

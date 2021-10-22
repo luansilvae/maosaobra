@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import capitalizeString from '../../utils/capitalizeString'
 import { connect } from '../../utils/database'
 
 interface ErrorResponseType {
@@ -39,7 +40,10 @@ export default async (
 
     await db
       .collection('users')
-      .updateOne({ email: email }, { $set: { name, phone, address } })
+      .updateOne(
+        { email: email },
+        { $set: { name: capitalizeString(name), phone, address } }
+      )
 
     return res.status(200).json({ message: 'Usuário alterado com sucesso.' })
   } else {
