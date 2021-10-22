@@ -11,6 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const users = await db
         .collection('users')
         .find({ professional: true })
+        .sort({ updatedAt: -1 })
         .skip((page - 1) * perPage)
         .limit(perPage)
         .toArray()

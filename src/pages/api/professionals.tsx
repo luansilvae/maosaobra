@@ -42,6 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             especialidadesSearchable: especialidade,
             'address.citySearchable': { $regex: `^${city}`, $options: 'i' }
           })
+          .sort({ updatedAt: -1 })
           .skip((page - 1) * perPage)
           .limit(perPage)
           .toArray()
@@ -61,6 +62,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             professional: true,
             especialidadesSearchable: especialidade
           })
+          .sort({ updatedAt: -1 })
           .skip((page - 1) * perPage)
           .limit(perPage)
           .toArray()
@@ -105,7 +107,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           description,
           cnpj,
           experience,
-          especialidadesSearchable
+          especialidadesSearchable,
+          updatedAt: new Date()
         }
       }
     )
