@@ -109,6 +109,7 @@ const Container = styled.div`
       gap: 3rem;
 
       .card {
+        max-height: 32rem;
         padding: 3rem;
         background-color: #ffffff;
         border: 0.5px solid #f0f0f0;
@@ -117,12 +118,21 @@ const Container = styled.div`
         flex-direction: column;
         align-items: center;
         justify-content: center;
+
+        @media (max-width: 480px) {
+          max-height: none;
+        }
+
+        h3 {
+          text-align: center;
+          color: ${props => props.theme.colors.title};
+          font-size: 1.8rem;
+        }
       }
 
       .professional-card {
         gap: 2rem;
         text-align: center;
-        max-height: 30rem;
 
         animation: ${fade} 1s;
 
@@ -217,12 +227,6 @@ const Container = styled.div`
       }
 
       .favorites-card {
-        h3 {
-          text-align: center;
-          color: ${props => props.theme.colors.title};
-          font-size: 1.8rem;
-        }
-
         .favorites-content {
           width: 100%;
           background-color: #fbfbfb;
@@ -231,12 +235,7 @@ const Container = styled.div`
           padding: 3rem;
           margin-top: 3rem;
 
-          max-height: 30rem;
-          overflow-y: hidden;
-
-          &:hover {
-            overflow-y: auto;
-          }
+          overflow-y: auto;
 
           ::-webkit-scrollbar {
             width: 4px;

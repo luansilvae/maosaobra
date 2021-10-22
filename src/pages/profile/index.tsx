@@ -408,9 +408,7 @@ const Profile = () => {
                     </div>
                   ) : (
                     <div className="card professional-card">
-                      <span>
-                        Estes são os serviços que você presta atualmente.
-                      </span>
+                      <h3>Estes são os serviços que você presta atualmente.</h3>
 
                       <div className="specialties">
                         {data.especialidades &&
