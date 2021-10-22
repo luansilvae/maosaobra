@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Router from 'next/router'
 import axios from 'axios'
 import * as Yup from 'yup'
+import { mutate as mutateGlobal } from 'swr'
 import { useSession } from 'next-auth/client'
 import { ToastContainer } from 'react-toastify'
 import { FaUser } from 'react-icons/fa'
@@ -13,7 +14,7 @@ import { RiArrowRightSLine } from 'react-icons/ri'
 
 import Loading from '../../../components/Loading'
 import NotLoggedPage from '../../../components/NotLoggedPage'
-import { useFetch } from '../../../hooks/useFetch'
+import { useFetch, User } from '../../../hooks/useFetch'
 import { notify } from '../../../utils/notify'
 import { cnpjMask } from '../../../utils/masks'
 
@@ -27,7 +28,7 @@ import Link from 'next/link'
 const Professional = ({ id = 'modal-container' }) => {
   const [session, loading] = useSession()
 
-  const { data } = useFetch(`/api/user/${session?.user.email}`)
+  const { data, mutate } = useFetch(`/api/user/${session?.user.email}`)
 
   const [professionalData, setProfessionalData] = useState({
     especialidades: [],
@@ -55,7 +56,7 @@ const Professional = ({ id = 'modal-container' }) => {
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
-  const deleteProfessional = async () => {
+  const deleteProfessional = useCallback(() => {
     const deletedProfessional = {
       especialidades: [],
       description: '',
@@ -67,11 +68,20 @@ const Professional = ({ id = 'modal-container' }) => {
     if (data.professional) {
       setProfessionalData(deletedProfessional)
 
-      await axios.put(`/api/deleteProfessional`, deletedProfessional)
+      axios.put(`/api/deleteProfessional`, deletedProfessional)
+
+      const updatedUser = {
+        ...data,
+        professional: false,
+        deletedProfessional
+      }
+
+      mutateGlobal(`/api/user/${session?.user.email}`, updatedUser)
+      mutate(updatedUser, false)
 
       Router.back()
     }
-  }
+  }, [mutate, data])
 
   const handleOutsideClick = (e: any) => {
     if (e.target.id === id) setModalIsOpen(false)
@@ -86,6 +96,7 @@ const Professional = ({ id = 'modal-container' }) => {
     },
     []
   )
+
   return (
     <div>
       {session ? (
@@ -141,7 +152,7 @@ const Professional = ({ id = 'modal-container' }) => {
                           )
                         })
 
-                        const data = {
+                        const updateProfessional = {
                           cnpj,
                           description,
                           email,
@@ -150,8 +161,23 @@ const Professional = ({ id = 'modal-container' }) => {
                           especialidadesSearchable
                         }
 
+                        const updatedData: User = {
+                          ...data,
+                          cnpj,
+                          description,
+                          email,
+                          especialidades,
+                          experience: Number(experience),
+                          especialidadesSearchable,
+                          professional: true
+                        }
+
+                        console.log(updatedData)
+                        axios.put(`/api/professionals`, updateProfessional)
+
+                        mutate(updatedData, false)
+
                         notify('Cadastro profissional atualizado.', '#1dbf73')
-                        axios.put(`/api/professionals`, data)
                       }}
                     >
                       {formik => {

@@ -14,6 +14,7 @@ export interface User {
   cnpj: string
   description: string
   especialidades: string[]
+  especialidadesSearchable: string[]
   favorites: Favorites[]
   experience: number
   professional: boolean
