@@ -302,6 +302,7 @@ export const InputGroup = styled.div`
       line-height: 2.4rem;
       color: ${props => props.theme.colors.title};
       resize: vertical;
+      width: 100%;
 
       transition: all 200ms;
 
@@ -327,6 +328,7 @@ export const InputGroup = styled.div`
     }
 
     .custom-select {
+      width: 100%;
       > div {
         border-color: #e72626;
         .css-1wa3eu0-placeholder {

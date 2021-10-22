@@ -11,7 +11,6 @@ const Container = styled.div`
   }
 
   .header-profile {
-    width: 100%;
     display: flex;
 
     @media (max-width: 480px) {
@@ -119,6 +118,8 @@ const Container = styled.div`
         align-items: center;
         justify-content: center;
 
+        animation: ${fade} 1s;
+
         @media (max-width: 480px) {
           max-height: none;
         }
@@ -133,8 +134,6 @@ const Container = styled.div`
       .professional-card {
         gap: 2rem;
         text-align: center;
-
-        animation: ${fade} 1s;
 
         svg {
           color: ${props => props.theme.colors.primary};
@@ -309,29 +308,6 @@ const Container = styled.div`
       }
     }
   }
-
-  .scroll {
-    ::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: #d1d1d1;
-      border-radius: 10px;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: ${props => props.theme.colors.primary};
-      border-radius: 10px;
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #18a061;
-    }
-  }
 `
 
 export const InputGroup = styled.div`
@@ -365,6 +341,7 @@ export const InputGroup = styled.div`
       line-height: 2.4rem;
       color: ${props => props.theme.colors.title};
       resize: vertical;
+      width: 100%;
 
       transition: all 200ms;
 
