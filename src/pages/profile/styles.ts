@@ -3,8 +3,9 @@ import { fade, move } from '../../styles/animations'
 
 const Container = styled.div`
   max-width: 1200px;
-  margin: 4rem auto;
   padding: 0 4rem;
+  margin: 0 auto;
+  margin-top: 12.2rem;
 
   @media (max-width: 480px) {
     padding: 0 1rem;

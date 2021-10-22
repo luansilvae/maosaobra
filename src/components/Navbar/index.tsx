@@ -8,7 +8,10 @@ import LoadingHeaderActions from '../Shimmer/LoadingHeaderActions'
 import { moveDown } from '../../styles/animations'
 
 const NavbarContainer = styled.div`
-  margin: 0 auto;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 1000;
   background: #ffffff;
   box-shadow: 0 1px 3px rgba(15, 15, 15, 0.13);
   padding: 1.8rem 4rem;

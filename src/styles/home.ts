@@ -4,10 +4,13 @@ import { fade, move, moveTop } from '../styles/animations'
 export const Container = styled.div`
   max-width: 1580px;
   padding: 2.5rem 4rem;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
+  margin-top: 8.2rem;
+
+  min-height: calc(100vh - 8.2rem);
 
   @media (max-width: 950px) {
     flex-direction: column;
@@ -24,11 +27,13 @@ export const Container = styled.div`
 export const LandingContainer = styled.div`
   max-width: 1580px;
   padding: 2.5rem 4rem;
-  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: calc(100vh - 9.4rem);
+  margin: 0 auto;
+  margin-top: 8.2rem;
+
+  height: calc(100vh - 8.2rem);
 
   @media (max-width: 950px) {
     flex-direction: column;
@@ -67,6 +72,10 @@ export const LandingContainer = styled.div`
       gap: 1rem;
       max-width: 35rem;
       cursor: pointer;
+
+      svg {
+        margin-top: 2px;
+      }
     }
 
     @media (max-width: 950px) {
@@ -98,7 +107,6 @@ export const LandingContainer = styled.div`
   }
 
   img {
-    overflow: hidden;
     animation: ${fade} 1s;
   }
 `

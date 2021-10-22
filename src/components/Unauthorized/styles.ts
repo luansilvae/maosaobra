@@ -6,7 +6,11 @@ const Container = styled.div`
   justify-content: center;
   width: 100vw;
   padding: 3rem;
-  height: calc(100vh - 8.1rem);
+
+  margin: 0 auto;
+  margin-top: 8.2rem;
+
+  height: calc(100vh - 8.2rem);
 
   .unauthorized-page {
     display: flex;

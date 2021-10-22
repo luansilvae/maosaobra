@@ -3,11 +3,14 @@ import { move, fade } from '../../styles/animations'
 
 const Container = styled.div`
   max-width: 1080px;
-  height: calc(100vh - 9.4rem);
   margin: 0 auto;
   align-items: center;
   display: flex;
   justify-content: space-between;
+  margin: 0 auto;
+  margin-top: 8.2rem;
+
+  min-height: calc(100vh - 8.2rem);
 
   @media (max-width: 1160px) {
     flex-direction: column;

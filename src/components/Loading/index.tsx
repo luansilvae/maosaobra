@@ -3,10 +3,16 @@ import styled, { keyframes } from 'styled-components'
 import { AiOutlineLoading } from 'react-icons/ai'
 
 const LoadingBox = styled.div`
-  height: 70vh;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  width: 100vw;
+  padding: 3rem;
+
+  margin: 0 auto;
+  margin-top: 8.2rem;
+
+  height: calc(100vh - 8.2rem);
 `
 const spin = keyframes`
  from {

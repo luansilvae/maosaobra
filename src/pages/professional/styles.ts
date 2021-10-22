@@ -2,6 +2,9 @@ import styled from 'styled-components'
 import { fade, moveTop } from '../../styles/animations'
 
 const Container = styled.div`
+  margin: 0 auto;
+  margin-top: 8.2rem;
+
   .user-content {
     display: flex;
     justify-content: space-between;
