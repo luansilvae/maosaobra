@@ -40,9 +40,31 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="pt">
+      <Html lang="pt-br">
         <Head>
           <meta charSet="utf-8" />
+          <meta name="theme-color" content="#ffffff" />
+          <meta name="application-name" content="Mãos à Obra" />
+          <meta
+            name="description"
+            content="Encontre o prestador de serviços mais próximo de você."
+          />
+
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content="Mãos à Obra" />
+          <meta
+            property="og:description"
+            content="Encontre o prestador de serviços mais próximo de você."
+          />
+          <meta property="og:site_name" content="Mãos à Obra" />
+          <meta property="og:url" content="https://maosaobra.vercel.app" />
+          <meta
+            property="og:image"
+            content="https://maosaobra.vercel.app/logo.svg"
+          />
+
+          <meta http-equiv="Content-Language" content="pt-br" />
+
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
             href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
@@ -50,6 +72,7 @@ export default class MyDocument extends Document {
           />
 
           <link rel="stylesheet" type="text/css" href="/nprogress.css" />
+          <link rel="manifest" href="/manifest.json" />
 
           <link
             rel="icon"
