@@ -63,7 +63,7 @@ export default class MyDocument extends Document {
             content="https://maosaobra.vercel.app/logo.svg"
           />
 
-          <meta http-equiv="Content-Language" content="pt-br" />
+          <meta httpEquiv="Content-Language" content="pt-br" />
 
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
