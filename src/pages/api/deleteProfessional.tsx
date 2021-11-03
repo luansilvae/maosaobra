@@ -18,7 +18,7 @@ interface User {
   neighborhood: string
   phone: string
   state: string
-  cnpj: string
+  cpf: string
   description: string
   especialidades: string[]
   experience: number
@@ -30,7 +30,7 @@ export default async (
   res: NextApiResponse<ErrorResponseType | SuccessResponseType>
 ) => {
   if (req.method === 'PUT') {
-    const { description, experience, cnpj, email, especialidades }: User =
+    const { description, experience, cpf, email, especialidades }: User =
       req.body
 
     const { db } = await connect()
@@ -41,7 +41,7 @@ export default async (
         $set: {
           description,
           experience,
-          cnpj,
+          cpf,
           professional: false,
           especialidades
         }

@@ -36,7 +36,6 @@ interface User {
     state: string
   }
   phone: string
-  cnpj: string
   description: string
   especialidades: string[]
   experience: number
@@ -279,15 +278,6 @@ export default function Professional({ user }) {
                   <p>
                     Há {dateDistance}, em {joinDate}
                   </p>
-                </div>
-
-                <div className="card-item">
-                  <span>
-                    <RiShieldUserLine size={25} />
-                    CNPJ
-                  </span>
-
-                  <p>{professional.cnpj}</p>
                 </div>
               </div>
             </div>

@@ -13,7 +13,7 @@ interface User {
     state: string
   }
   professional: boolean
-  cnpj: string
+  cpf: string
   description: string
   especialidades: string[]
   especialidadesSearchable: string[]
@@ -91,7 +91,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const {
       description,
       experience,
-      cnpj,
+      cpf,
       email,
       especialidades,
       especialidadesSearchable
@@ -105,7 +105,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           professional: true,
           especialidades,
           description,
-          cnpj,
+          cpf,
           experience,
           especialidadesSearchable,
           updatedAt: new Date()

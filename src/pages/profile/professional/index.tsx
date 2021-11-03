@@ -16,7 +16,7 @@ import Loading from '../../../components/Loading'
 import NotLoggedPage from '../../../components/NotLoggedPage'
 import { useFetch, User } from '../../../hooks/useFetch'
 import { notify } from '../../../utils/notify'
-import { cnpjMask } from '../../../utils/masks'
+import { cpfMask } from '../../../utils/masks'
 
 import 'react-toastify/dist/ReactToastify.css'
 import Container, { InputGroup } from './styles'
@@ -34,7 +34,7 @@ const Professional = ({ id = 'modal-container' }) => {
     especialidades: [],
     description: '',
     experience: '',
-    cnpj: '',
+    cpf: '',
     email: session?.user.email
   })
 
@@ -45,10 +45,10 @@ const Professional = ({ id = 'modal-container' }) => {
     experience: Yup.number().required(
       'Por favor, preencha seus anos de experiência.'
     ),
-    cnpj: Yup.string()
-      .required('Por favor, preencha com seu CNPJ.')
-      .min(18, 'Formato inválido de CNPJ.')
-      .max(18, 'Formato inválido de CNPJ.'),
+    cpf: Yup.string()
+      .required('Por favor, preencha com seu CPF.')
+      .min(14, 'Formato inválido de CPF.')
+      .max(14, 'Formato inválido de CPF.'),
     especialidades: Yup.array()
       .min(1, 'Selecione pelo menos uma especialidade.')
       .required('Por favor, selecione uma especialidade.')
@@ -61,7 +61,7 @@ const Professional = ({ id = 'modal-container' }) => {
       especialidades: [],
       description: '',
       experience: '',
-      cnpj: '',
+      cpf: '',
       email: session?.user.email
     }
 
@@ -90,8 +90,8 @@ const Professional = ({ id = 'modal-container' }) => {
   const handleInputMask = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
       const { name } = e.currentTarget
-      if (name === 'cnpj') {
-        cnpjMask(e)
+      if (name === 'cpf') {
+        cpfMask(e)
       }
     },
     []
@@ -139,7 +139,7 @@ const Professional = ({ id = 'modal-container' }) => {
                       validationSchema={validateProfessional}
                       onSubmit={values => {
                         const {
-                          cnpj,
+                          cpf,
                           description,
                           email,
                           especialidades,
@@ -157,7 +157,7 @@ const Professional = ({ id = 'modal-container' }) => {
                         })
 
                         const updateProfessional = {
-                          cnpj,
+                          cpf,
                           description,
                           email,
                           especialidades,
@@ -167,16 +167,15 @@ const Professional = ({ id = 'modal-container' }) => {
 
                         const updatedData: User = {
                           ...data,
-                          cnpj,
+                          cpf: String(cpf),
                           description,
-                          email,
                           especialidades,
                           experience: Number(experience),
                           especialidadesSearchable,
-                          professional: true
+                          professional: true,
+                          email,
                         }
 
-                        console.log(updatedData)
                         axios.put(`/api/professionals`, updateProfessional)
 
                         mutate(updatedData, false)
@@ -193,7 +192,7 @@ const Professional = ({ id = 'modal-container' }) => {
                               const {
                                 description,
                                 experience,
-                                cnpj,
+                                cpf,
                                 especialidades
                               } = response.data
 
@@ -201,7 +200,7 @@ const Professional = ({ id = 'modal-container' }) => {
                                 especialidades: [],
                                 description: '',
                                 experience: '',
-                                cnpj: '',
+                                cpf: '',
                                 email: session?.user.email
                               }
 
@@ -212,7 +211,7 @@ const Professional = ({ id = 'modal-container' }) => {
                                   especialidades,
                                   description,
                                   experience,
-                                  cnpj,
+                                  cpf,
                                   email: session?.user.email
                                 })
                               }
@@ -283,22 +282,22 @@ const Professional = ({ id = 'modal-container' }) => {
 
                                 <div
                                   className={
-                                    errors.cnpj && touched.cnpj
+                                    errors.cpf && touched.cpf
                                       ? 'error input'
                                       : 'input'
                                   }
                                 >
-                                  <label htmlFor="cnpj">CNPJ</label>
+                                  <label htmlFor="cpf">CPF</label>
                                   <Field
-                                    id="cnpj"
-                                    name="cnpj"
+                                    id="cpf"
+                                    name="cpf"
                                     onKeyUp={handleInputMask}
                                   />
 
-                                  {errors.cnpj && touched.cnpj ? (
+                                  {errors.cpf && touched.cpf ? (
                                     <div className="error-message">
                                       <TiWarning size={21} />
-                                      {errors.cnpj}
+                                      {errors.cpf}
                                     </div>
                                   ) : null}
                                 </div>

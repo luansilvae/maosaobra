@@ -11,7 +11,7 @@ export interface User {
   email: string
   image: string
   phone: string
-  cnpj: string
+  cpf: string
   description: string
   especialidades: string[]
   especialidadesSearchable: string[]
