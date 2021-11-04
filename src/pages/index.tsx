@@ -20,6 +20,18 @@ import {
   Container,
   LandingContainer,
   SearchContainer,
+  Welcome,
+  Illustration,
+  About,
+  AboutContent,
+  Intro,
+  AboutItems,
+  Item,
+  LocationIcon,
+  CollaborateIcon,
+  SearchIcon,
+  SignUpCard,
+  Content,
   UsersList,
   Pagination,
   FoundProfessionals
@@ -70,25 +82,97 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
         <Loading />
       ) : !session ? (
         <LandingContainer>
-          <div className="welcome">
-            <h1>Bem-vindo ao Mãos à Obra </h1>
-            <h2>Encontre o prestador de serviços mais próximo de você.</h2>
+          <Welcome>
+            <Intro>
+              <h1>Bem-vindo ao Mãos à Obra </h1>
+              <h2>Encontre o prestador de serviços mais próximo de você.</h2>
 
-            {!session && (
+              {!session && (
+                <Link href="/signin">
+                  <a>
+                    Cadastre-se para começar a procurar <FaArrowRight />
+                  </a>
+                </Link>
+              )}
+            </Intro>
+
+            <Illustration>
+              <Image
+                alt="Mãos à Obra Logo"
+                src="/illustration.svg"
+                width={600}
+                height={450}
+              />
+            </Illustration>
+          </Welcome>
+
+          <About>
+            <Illustration>
+              <Image
+                alt="Mãos à Obra Logo"
+                src="/about-illustration.svg"
+                width={600}
+                height={450}
+              />
+            </Illustration>
+
+            <AboutContent>
+              <h1>Sobre nós</h1>
+              <h2>
+                Somos um sistema de conexão confiável entre pessoas em busca de
+                um prestador de serviço. A longo prazo nossa aplicação busca
+                mudar o estilo de contratação e divulgação de trabalhadores pela
+                baixada santista.
+              </h2>
+            </AboutContent>
+          </About>
+
+          <AboutItems>
+            <Item>
+              <SearchIcon />
+              <h4>Busca fácil</h4>
+              <span>Encontre facilmente por prestadores de serviço.</span>
               <Link href="/signin">
-                <a>
-                  Cadastre-se para começar a procurar <FaArrowRight />
-                </a>
+                <a title="Cadastre-se">Começe a procurar</a>
               </Link>
-            )}
-          </div>
+            </Item>
 
-          <Image
-            alt="Mãos à Obra Logo"
-            src="/illustration.svg"
-            width={600}
-            height={450}
-          />
+            <Item>
+              <LocationIcon />
+              <h4>Você escolhe</h4>
+              <span>
+                Escolha o prestador de serviço ideal mais próximo de você.{' '}
+              </span>
+              <Link href="/signin">
+                <a title="Cadastre-se">Encontre um profissional</a>
+              </Link>
+            </Item>
+
+            <Item>
+              <CollaborateIcon />
+              <h4>Seja um colaborador</h4>
+              <span>
+                Ofereça seus serviços na plataforma para ser encontrado.
+              </span>
+              <Link href="/signin">
+                <a title="Cadastre-se">Torne-se um colaborador</a>
+              </Link>
+            </Item>
+          </AboutItems>
+
+          <SignUpCard>
+            <Content>
+              <h2>Ofereça os seus serviços.</h2>
+              <span>
+                Não perca a oportunidade de conquistar novos clientes, cadastre
+                agora mesmo em nosso site e ofereça os seus serviços.
+              </span>
+            </Content>
+
+            <Link href="/signin">
+              <a>Criar minha conta</a>
+            </Link>
+          </SignUpCard>
         </LandingContainer>
       ) : (
         <Container>

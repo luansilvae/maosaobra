@@ -1,6 +1,10 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { FaHandshake } from 'react-icons/fa'
+import { IoMdSearch } from 'react-icons/io'
+import { HiLocationMarker } from 'react-icons/hi'
 
 import { fade, move, moveTop } from '../styles/animations'
+
 export const Container = styled.div`
   max-width: 1580px;
   padding: 2.5rem 4rem;
@@ -27,87 +31,94 @@ export const Container = styled.div`
 export const LandingContainer = styled.div`
   max-width: 1580px;
   padding: 2.5rem 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin: 0 auto;
   margin-top: 8.2rem;
-
   height: calc(100vh - 8.2rem);
-
-  @media (max-width: 950px) {
-    flex-direction: column;
-    justify-content: center;
-    gap: 2rem;
-  }
-
   @media (max-width: 480px) {
     padding: 2.5rem 1rem;
   }
 
-  .welcome {
-    animation: ${move} 1s;
+  img {
+    animation: ${fade} 1s;
+  }
+`
 
-    h1 {
-      font-size: 4.3rem;
-      max-width: 35rem;
-      margin-bottom: 2rem;
-    }
+export const Welcome = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 
-    h2 {
-      font-size: 2.2rem;
-      font-weight: 400;
-      color: ${props => props.theme.colors.text};
-      margin-bottom: 2rem;
-    }
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+`
 
-    a {
-      background: none;
-      border: none;
-      color: ${props => props.theme.colors.primary};
-      font-weight: 700;
-      font-size: 1.6rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      max-width: 35rem;
-      cursor: pointer;
+export const Illustration = styled.div`
+  animation: ${fade} 1s;
 
-      svg {
-        margin-top: 2px;
-      }
-    }
+  @media (max-width: 768px) {
+    display: none;
+  }
+`
 
-    @media (max-width: 950px) {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      h1,
-      h2,
-      a {
-        width: 100%;
-        text-align: center;
-      }
-    }
+export const Intro = styled.div`
+  animation: ${move} 1s;
+  h1 {
+    font-size: 4.3rem;
+    max-width: 35rem;
+    margin-bottom: 2rem;
+  }
 
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 3.5rem;
-      }
+  h2 {
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: ${props => props.theme.colors.text};
+    margin-bottom: 2rem;
+  }
 
-      h2 {
-        font-size: 1.7rem;
-      }
+  a {
+    border: none;
+    color: ${props => props.theme.colors.primary};
+    font-weight: 700;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 35rem;
+    cursor: pointer;
 
-      a {
-        font-size: 1.5rem;
-        justify-content: center;
-      }
+    svg {
+      margin-top: 2px;
     }
   }
 
-  img {
-    animation: ${fade} 1s;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    a {
+      max-width: none;
+      font-size: 1.7rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 3.5rem;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    a svg {
+      display: none;
+    }
   }
 `
 
@@ -283,6 +294,163 @@ export const SearchContainer = styled.div`
 
   .illustration {
     animation: ${fade} 1s;
+  }
+`
+
+export const About = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`
+
+export const AboutContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  h1 {
+    font-size: 4.3rem;
+    max-width: 35rem;
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    max-width: 60rem;
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: ${props => props.theme.colors.text};
+    margin-bottom: 2rem;
+    text-align: right;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    align-items: center;
+    h1,
+    h2 {
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 3rem;
+    }
+
+    h2 {
+      font-size: 1.7rem;
+    }
+  }
+`
+
+export const AboutItems = styled.div`
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`
+
+export const Item = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+
+  h4 {
+    font-size: 2.5rem;
+    color: ${props => props.theme.colors.title};
+  }
+
+  span {
+    font-size: 1.7rem;
+    color: ${props => props.theme.colors.text};
+    margin: 1.5rem 0;
+    max-width: 40rem;
+  }
+
+  a {
+    color: ${props => props.theme.colors.primary};
+    font-weight: 700;
+    padding: 1rem 2rem;
+  }
+`
+
+const iconCss = css`
+  width: 9rem;
+  height: 9rem;
+  color: ${props => props.theme.colors.primary};
+`
+
+export const SearchIcon = styled(IoMdSearch)`
+  ${iconCss}
+`
+
+export const LocationIcon = styled(HiLocationMarker)`
+  ${iconCss}
+`
+
+export const CollaborateIcon = styled(FaHandshake)`
+  ${iconCss}
+`
+
+export const SignUpCard = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  background: #ffffff;
+  border: solid 1px #d6d6d6;
+  border-radius: 5px;
+  margin-top: 3rem;
+  padding: 3rem 2rem;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  a {
+    background: ${props => props.theme.colors.primary};
+    color: #ffffff;
+    padding: 1.5rem 3rem;
+    border-radius: 5px;
+    font-weight: 500;
+    min-width: 21rem;
+  }
+`
+
+export const Content = styled.div`
+  max-width: 70rem;
+  h2 {
+    font-size: 4.3rem;
+    margin-bottom: 2rem;
+
+    @media (max-width: 480px) {
+      font-size: 3rem;
+    }
+  }
+
+  span {
+    font-size: 1.7rem;
+    color: ${props => props.theme.colors.text};
   }
 `
 
