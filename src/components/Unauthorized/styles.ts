@@ -4,13 +4,12 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
   padding: 3rem;
 
   margin: 0 auto;
   margin-top: 8.2rem;
 
-  height: calc(100vh - 8.2rem);
+  min-height: calc(100vh - 8.2rem);
 
   .unauthorized-page {
     display: flex;

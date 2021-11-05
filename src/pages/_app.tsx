@@ -10,6 +10,7 @@ import light from '../styles/themes/light'
 
 import NProgress from 'nprogress'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start()
@@ -24,6 +25,8 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         <Navbar />
         <Component {...pageProps} />
         <GlobalStyle />
+
+        <Footer />
       </ThemeProvider>
     </Provider>
   )

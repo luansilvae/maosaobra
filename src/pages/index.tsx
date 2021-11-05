@@ -17,6 +17,7 @@ import capitalizeString from '../utils/capitalizeString'
 import { listaEspecialidades } from '../utils/especialidades'
 
 import {
+  Main,
   Container,
   LandingContainer,
   SearchContainer,
@@ -69,7 +70,7 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
   })
 
   return (
-    <div>
+    <Main>
       <Head>
         <title>Mãos à Obra | Início</title>
         <meta
@@ -379,7 +380,7 @@ export default function Home({ users, page, maxPage, total, url }: UserProps) {
           )}
         </Container>
       )}
-    </div>
+    </Main>
   )
 }
 
