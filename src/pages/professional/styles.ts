@@ -60,6 +60,10 @@ const Container = styled.div`
       margin-top: 1rem;
       max-height: 8rem;
 
+      @media (max-width: 720px) {
+        max-height: none;
+      }
+
       overflow-y: auto;
 
       ::-webkit-scrollbar {

@@ -108,11 +108,11 @@ export const Intro = styled.div`
 
   @media (max-width: 480px) {
     h1 {
-      font-size: 3.5rem;
+      font-size: 3rem;
     }
 
     h2 {
-      font-size: 1.8rem;
+      font-size: 1.7rem;
     }
 
     a svg {
@@ -314,6 +314,8 @@ export const AboutContent = styled.div`
   flex-direction: column;
   align-items: flex-end;
 
+  animation: ${move} 1s;
+
   h1 {
     font-size: 4.3rem;
     max-width: 35rem;
@@ -321,7 +323,7 @@ export const AboutContent = styled.div`
   }
 
   h2 {
-    max-width: 60rem;
+    max-width: 65rem;
     font-size: 2.2rem;
     font-weight: 400;
     color: ${props => props.theme.colors.text};
@@ -494,11 +496,22 @@ export const UsersList = styled.div`
       text-overflow: ellipsis;
     }
 
+    @media (max-width: 480px) {
+      > span {
+        text-align: center;
+      }
+    }
+
     .user-data-content {
       display: flex;
       align-items: center;
       gap: 2rem;
       margin-bottom: 2rem;
+
+      @media (max-width: 480px) {
+        width: 100%;
+        justify-content: center;
+      }
 
       img {
         border-radius: 50%;
@@ -551,6 +564,10 @@ export const UsersList = styled.div`
       max-height: 8rem;
 
       overflow-y: auto;
+
+      @media (max-width: 780px) {
+        max-height: none;
+      }
 
       ::-webkit-scrollbar {
         width: 4px;
